@@ -3,8 +3,9 @@ import { Browser ,BrowserContext } from "playwright"
 import { fixture } from "./pageFixture";
 import { invokeBrowser } from "../helper/browsers/browserManager";
 import { getEnv } from "../helper/env/env";
-import { options } from "../helper/util/logger";
 import { createLogger } from "winston";
+import { options } from "../helper/util/logger";
+const fs = require("fs-extra");
 
 let browser: Browser    
 let context: BrowserContext;
@@ -18,14 +19,25 @@ BeforeAll(async function () {
 
 
 //Before starting of each scenario Before Block is executed
-Before(async function ({pickle}) {
-    const scenarioName = pickle.name+pickle.id;
-     context = await browser.newContext();
-     const page = await context.newPage();
-     fixture.page = page;
-     fixture.logger = createLogger(options(scenarioName));
-  
+// It will trigger for not auth scenarios
+Before({ tags: "not @auth" }, async function ({ pickle }) {
+    const scenarioName = pickle.name + pickle.id
+    context = await browser.newContext({
+        recordVideo: {
+            dir: "test-results/videos",
+        },
+    });
+    await context.tracing.start({
+        name: scenarioName,
+        title: pickle.name,
+        sources: true,
+        screenshots: true, snapshots: true
+    });
+    const page = await context.newPage();
+    fixture.page = page;
+    fixture.logger = createLogger(options(scenarioName));
 });
+
 
 // After every Scenario step it is executed
 // AfterStep(async function ({pickle,result}) {
@@ -35,18 +47,30 @@ Before(async function ({pickle}) {
 
 //After completion of each scenario After Block is executed
 After(async function ({pickle, result}) {
-    console.log(result?.status);
-    //screenshot
+  let videoPath: string='';
+  let img: Buffer=Buffer.from('');
+
     if (result?.status === Status.FAILED) {
-        const img =await fixture.page.screenshot({path: `./test-results/screenshots/${pickle.name}.png`, type:'png'});
-    this.attach(img, "image/png");
+        img =await fixture.page.screenshot({path: `./test-results/screenshots/${pickle.name}.png`, type:'png'});
+        
+        const video = fixture.page.video();
+        videoPath =video? await video.path():'';
+   
     }
   await fixture.page.close();
   await context.close();
+  if(result?.status === Status.FAILED){
+    this.attach(img, "image/png");
+   if(videoPath){
+   this.attach(fs.readFileSync(videoPath), 'video/webm');
+  }
+}
 });
 
 //After completion of Feature file AfterAll Block is executed
 AfterAll(async function () {
+  await fixture.page.close();
   await browser.close();
-  fixture.logger.close();
+  
 }); 
+

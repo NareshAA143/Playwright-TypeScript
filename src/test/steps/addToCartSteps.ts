@@ -1,31 +1,32 @@
-import { When,setDefaultTimeout } from "@cucumber/cucumber"
+import { Before, When,setDefaultTimeout ,Then, Given} from "@cucumber/cucumber"
 setDefaultTimeout(60 * 1000*2);
 import { expect } from "playwright/test"
 import { fixture } from "../../hooks/pageFixture";
+import AddToCartPage from "../../pages/AddToCartPage";
+import Assert from "../../helper/wrapper/assert";
 
-           When('User clicks on Laptops', async function () {
-            await fixture.page.locator("//a[3]").click();
-            fixture.logger.info("User clicks on Laptos");
-          });
+  let addToCart: AddToCartPage;
+  let assert: Assert
+
+  Given('User is on Add to cart page', async function () {
+      addToCart = new AddToCartPage(fixture.page);
+      assert = new Assert(fixture.page);
+  })
         
-           When('User clicks on SonyVaioI5', async function () {
-             await fixture.page.locator("//a[normalize-space()='Sony vaio i5']").click();
-             fixture.logger.info("User selects SonyVaioI5");
-           });
+  Given('User clicks on Add to cart button', async function () {
+     
+      fixture.page.on('dialog',async (dialog)=>{
+        const alertMessage= dialog.message();
+         expect(alertMessage).toBe('Product added.');
+         await dialog.accept(); 
+      })
+      await addToCart.clickOnAddToCart()
+  })
         
-           When('User clicks on Add to cart button', async function () {
-             const [dialog] = await Promise.all([
-              fixture.page.waitForEvent('dialog'),
-              fixture.page.locator("//a[normalize-space()='Add to cart']").click()
-            ]);
-            expect(dialog.message()).toBe('Product added.');
-            await dialog.accept();
-            fixture.logger.info("User adds product to cart");
-           });
 
-           When('User clicks on logout button', async function () {
+ Then('User clicks on logout button', async function () {
 
-            await fixture.page.locator("#logout2").click();
-            fixture.logger.info("User logged out successfully");
+       await addToCart.clickOnLogout();
+        fixture.logger.info("User logged out successfully");
 
-           });
+   });
