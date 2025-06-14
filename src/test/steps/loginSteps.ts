@@ -18,7 +18,9 @@ let assert: Assert;
           assert = new Assert(fixture.page);
 
           await loginPage.navigateToLoginPage();
-          fixture.logger.info("Navigated to the application");
+          await assert.assertTitle("STORE");
+          await assert.assertURL("https://demoblaze.com/index.html");
+          fixture.logger.info("User Navigated to the application");
            
    });
 
@@ -33,7 +35,7 @@ let assert: Assert;
    When('User enter the username', async function () {
           
           await loginPage.enterUserName(data.userName);
-          fixture.logger.info("User clicks on the login link");
+          fixture.logger.info("User enters the username");
 
      });
 
@@ -69,7 +71,55 @@ let assert: Assert;
            
     });
         
-   
+
+     Then('User enter the incorrect username {string}', async function (username:string) {
+          
+          await loginPage.enterUserName(username);
+          fixture.logger.info("User clicks on the login link");
+
+    })
+
+     Then('User enter the incorrect password {string}', async function (password:string) {
+
+          await loginPage.enterPassword(password);
+          fixture.logger.info("User enters the password");
+
+  })
+
+  Then('User enter the correct username {string}', async function (username:string) {
+          
+          await loginPage.enterUserName(username);
+          fixture.logger.info("User clicks on the login link");
+
+  })
+
+  Then(`User see's wrong password`,async function () {
+          
+        fixture.page.on('dialog',async (dialog)=>{
+        const alertMessage= dialog.message();
+         expect(alertMessage).toBe('Wrong password.');
+         await dialog.accept(); 
+      })
+         await loginPage.clickOnLogin();
+        fixture.logger.info("User clicks on the login link");
+
+  })   
+
+   Then(`User see's Invalid credentilas`,async function () {
+          
+        fixture.page.on('dialog',async (dialog)=>{
+        const alertMessage= dialog.message();
+         expect(alertMessage).toBe('User does not exist.');
+         await dialog.accept(); 
+      })
+         await loginPage.clickOnLogin();
+        fixture.logger.info("User clicks on the login link");
+
+  }) 
+
+
+  
+
 
 
          

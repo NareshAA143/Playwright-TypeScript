@@ -1,5 +1,7 @@
-export{};
+//Ensures typeSafety, clearer, and error-free environemnt variable handling
+//Browser selection, Environment selection, Base URL selection,Headless mode selection
 
+export{};
 declare global{
     namespace NodeJS{
         interface ENV{
@@ -10,3 +12,6 @@ declare global{
         }
 }
 }
+
+
+ 

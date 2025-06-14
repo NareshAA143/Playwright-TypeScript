@@ -11,6 +11,7 @@ import Assert from "../../helper/wrapper/assert";
   Given('User is on Add to cart page', async function () {
       addToCart = new AddToCartPage(fixture.page);
       assert = new Assert(fixture.page);
+      fixture.logger.info("User is on Add to cart page");
   })
         
   Given('User clicks on Add to cart button', async function () {
@@ -21,6 +22,7 @@ import Assert from "../../helper/wrapper/assert";
          await dialog.accept(); 
       })
       await addToCart.clickOnAddToCart()
+      fixture.logger.info("User clicks on Add to cart button");
   })
         
 

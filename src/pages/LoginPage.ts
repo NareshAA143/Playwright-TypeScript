@@ -1,5 +1,7 @@
 import {expect,Page} from "@playwright/test";
 import PlaywrightWrapper from "../helper/wrapper/PlaywrightWrapper";
+import { context } from "@cucumber/cucumber";
+
 
 export default class LoginPage {
 
@@ -22,6 +24,7 @@ export default class LoginPage {
 
     async navigateToLoginPage() {
         await this.base.goto("https://demoblaze.com/index.html");
+        //await context.storageState({path:"src/auth/admin.json"});
        
     }
 

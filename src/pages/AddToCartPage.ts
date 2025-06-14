@@ -17,21 +17,14 @@ export default class LoginPage {
      private Elements={
         addToCart:"//a[normalize-space()='Add to cart']",
         logout:"#logout2"
-
+        
      }
 
      async clickOnAddToCart()
      {
-        // const [dialog] = await Promise.all([
-        //               this.page.waitForEvent('dialog'),
-        //               await this.page.locator(this.Elements.addToCart).click()
-        //             ]);
-        //             expect(dialog.message()).toBe('Product added.');
-        //             await dialog.accept();
-
          await this.page.locator(this.Elements.addToCart).click();
                     
-                   }
+     }
 
      async clickOnLogout()
     {

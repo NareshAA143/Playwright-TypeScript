@@ -1,3 +1,5 @@
+ //To assert the page title, URL, and text content globally
+ //create a object of this class and call the methods to assert the page
  import { expect, Page } from "@playwright/test";
 
 export default class Assert {
@@ -23,3 +25,4 @@ export default class Assert {
     }
 
 }
+

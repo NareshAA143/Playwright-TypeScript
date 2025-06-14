@@ -1,3 +1,5 @@
+//This function creates and returns a winston logger configuration object customized ffor a test scenario
+//it logs messages at level info or higher into a file named dynamically based on the scenario name
 import { transports, format}  from "winston";
 
 export function options(scenarioName:string){
@@ -17,3 +19,5 @@ export function options(scenarioName:string){
         ]
     }
 }; 
+
+
