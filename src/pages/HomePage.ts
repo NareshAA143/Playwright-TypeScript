@@ -1,8 +1,6 @@
 import {expect,Page} from "@playwright/test";
 import PlaywrightWrapper from "../helper/wrapper/PlaywrightWrapper";
-
-
-export default class LoginPage {
+export default class HomePage {
     private page: Page;
 
     private base: PlaywrightWrapper;
@@ -31,38 +29,31 @@ export default class LoginPage {
          await expect(this.page.locator(this.Elements.userName)).toBeVisible();
          await expect(this.page).toHaveTitle("STORE");
      }
-
      async clickOnLaptops()
      {
          await this.page.locator(this.Elements.loginModal).waitFor({state:'hidden'});
          await this.page.locator(this.Elements.laptops).click();
      }
-
      async clickOnContact()
      {
          await this.page.locator(this.Elements.contact).click();
      }
-
      async enterContactEmail(email:string)
      {
          await this.page.locator(this.Elements.contactEmail).fill(email);
      }
-
      async enterContactName(name:string)
      {
          await this.page.locator(this.Elements.contactName).fill(name);
      }
-
      async enterMessage(message:string)
      {
          await this.page.locator(this.Elements.message).fill(message);
      }
-
     async clickOnSend()
      {
          await this.page.locator(this.Elements.sendBtn).click();
      }
-
        async clickOnPhones()
     {
         await this.page.locator(this.Elements.phones).click();
@@ -73,3 +64,4 @@ export default class LoginPage {
         await this.page.locator(this.Elements.monitors).click();
     }
 }
+

@@ -1,8 +1,5 @@
 import {expect,Page} from "@playwright/test";
 import PlaywrightWrapper from "../helper/wrapper/PlaywrightWrapper";
-import { context } from "@cucumber/cucumber";
-
-
 export default class LoginPage {
 
    private page: Page;
@@ -13,7 +10,6 @@ export default class LoginPage {
            this.page = page;
            this.base = new PlaywrightWrapper(page);
        }
-
 
     private Elements={
         loginLink:"#login2",
@@ -27,7 +23,6 @@ export default class LoginPage {
         //await context.storageState({path:"src/auth/admin.json"});
        
     }
-
     async clickLogin() {
         await this.page.click(this.Elements.loginLink);
     }
@@ -54,7 +49,5 @@ export default class LoginPage {
             expect(dialog.message()).toBe('Wrong password.');
             await dialog.accept();
     }
-
-
 
 }

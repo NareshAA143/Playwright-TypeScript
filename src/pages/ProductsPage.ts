@@ -2,7 +2,7 @@ import {expect,Page} from "@playwright/test";
 import PlaywrightWrapper from "../helper/wrapper/PlaywrightWrapper";
 
 
-export default class LoginPage {
+export default class ProductsPage {
 
 
    private page: Page;

@@ -2,8 +2,7 @@ import {expect,Page} from "@playwright/test";
 import PlaywrightWrapper from "../helper/wrapper/PlaywrightWrapper";
 import { add } from "winston";
 
-
-export default class LoginPage {
+export default class AddTToCartPage {
 
     private page: Page;
     
@@ -31,8 +30,9 @@ export default class LoginPage {
         await this.page.locator(this.Elements.logout).click();
         
     }
-        
-     
+      
 }
+
+
      
     

@@ -5,10 +5,12 @@ const options: LaunchOptions={  //declaring browser launch options
 }
 
 export const invokeBrowser=()=>{
-    //const browserType =process.env.npm_config_BROWSER || "chrome";//reads environment variable passed from command line, if no no browser passed it takes chrome as default
-   const browserType=process.env.BROWSER;//takes browser from environment variable, package.json>scripts>"test": ENV= staging --if you want to run in prod change to prod
+    //const browserType =process.env.npm_config_BROWSER || "chrome";//reads environment variable passed from command line, 
+    // if no no browser passed it takes chrome as default
+   const browserType=process.env.BROWSER;//takes browser from environment variable, package.json>scripts>"test": ENV= staging 
+   //if you want to run in prod change to prod
     switch (browserType) {
-        case "chrome":
+        case "chromium":
            return chromium.launch(options);//it launches the chrome browser
            
         case "firefox":

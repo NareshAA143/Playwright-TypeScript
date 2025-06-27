@@ -9,9 +9,8 @@ export const fixture:{
     logger: Logger;
     
 }={
-    page: undefined as unknown as Page,
-    logger: undefined as unknown as Logger
+    page: undefined as unknown as Page, //"I'm declaring page as Page, but right now it's undefined, and that’s OK temporarily."
+    logger: undefined as unknown as Logger //"I'm declaring logger as Logger, but right now it's undefined, and that’s OK temporarily."
 }
 
-    // page: undefined as Page,
-    // logger: undefined as unknown as Logger  
+ 

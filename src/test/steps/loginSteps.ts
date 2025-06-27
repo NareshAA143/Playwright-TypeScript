@@ -10,8 +10,6 @@ import data from "../../helper/util/test-data/LoginData.json";
 let loginPage: LoginPage;
 let assert: Assert;
 
-
-
   Given('User navigates to the application', async function () {
          
           loginPage = new LoginPage(fixture.page);
@@ -30,8 +28,7 @@ let assert: Assert;
           fixture.logger.info("User click on the login link");
 
     });
-
-       
+   
    When('User enter the username', async function () {
           
           await loginPage.enterUserName(data.userName);
@@ -63,14 +60,12 @@ let assert: Assert;
 
   //--ends
 
-
    When('User click on the login button', async function () {
 
           await loginPage.clickOnLogin();
           fixture.logger.info("User click on the login button");
            
     });
-        
 
      Then('User enter the incorrect username {string}', async function (username:string) {
           

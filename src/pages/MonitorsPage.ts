@@ -18,7 +18,6 @@ export default class MonitorsPage {
 
 }
 
-
 async listOfMonitors():
     Promise<string[]>{
         await this.page.waitForSelector(this.Elements.listOfMonitors);
@@ -29,7 +28,4 @@ async listOfMonitors():
 async clickOnAppleMonitor(){
     await this.page.locator(this.Elements.appleMonitor).click();
 }
-
-
-
 }

@@ -1,133 +1,112 @@
-import { Before, After, BeforeAll, AfterAll,Status} from "@cucumber/cucumber"
-import { Browser ,BrowserContext } from "playwright"
+import { Before, After, BeforeAll, AfterAll, Status } from "@cucumber/cucumber";
+import { Browser, BrowserContext } from "playwright";
 import { fixture } from "./pageFixture";
 import { invokeBrowser } from "../helper/browsers/browserManager";
 import { getEnv } from "../helper/env/env";
 import { createLogger } from "winston";
 import { options } from "../helper/util/logger";
-const fs = require("fs-extra");
+import * as fs from "fs-extra";
 
-//Declares top‑level vars to hold the browser instance and context across scenarios.
-let browser: Browser    
+let browser: Browser;
 let context: BrowserContext;
 
-
-//Runs once before any feature files,Loads environment config and launches the browser.
 BeforeAll(async function () {
+  await fs.ensureDir("allure-results");
+  console.log("ensured allure-results folder exists");
+
   getEnv();
-  browser= await invokeBrowser(); 
+  browser = await invokeBrowser();
 });
 
-//Runs before each scenario without @auth tag.
-//Constructs a new browser context with video recording.
-//Starts Playwright tracing for diagnostics.
-//Opens a new page; attaches it and a logger to the shared fixture.
+// Before hook for scenarios NOT tagged with @auth
 Before({ tags: "not @auth" }, async function ({ pickle }) {
-    const scenarioName = pickle.name + pickle.id
-    context = await browser.newContext({
-        recordVideo: {
-            dir: "test-results/videos",
-        },
-    });
-    await context.tracing.start({
-        name: scenarioName,
-        title: pickle.name,
-        sources: true,
-        screenshots: true, snapshots: true
-    });
-    const page = await context.newPage();
-    fixture.page = page;
-    fixture.logger = createLogger(options(scenarioName));
+  const scenarioName = pickle.name + pickle.id;
+  context = await browser.newContext({
+    recordVideo: {
+      dir: "test-results/videos",
+    },
+  });
+  await context.tracing.start({
+    name: scenarioName,
+    title: pickle.name,
+    sources: true,
+    screenshots: true,
+    snapshots: true,
+  });
+  const page = await context.newPage();
+  fixture.page = page;
+  fixture.logger = createLogger(options(scenarioName));
 });
 
-
-//Similar to the previous hook, but for @auth scenarios.
-//Uses previously saved storageState (cookies/localStorage) based on scenario name.
-//Allows pre-authenticated flows.
-Before({ tags: '@auth' }, async function ({ pickle }) {
-    const scenarioName = pickle.name + pickle.id
-    context = await browser.newContext({
-        storageState: getStorageState(pickle.name),
-        recordVideo: {
-            dir: "test-results/videos",
-        },
-    });
-    await context.tracing.start({
-        name: scenarioName,
-        title: pickle.name,
-        sources: true,
-        screenshots: true, snapshots: true
-    });
-    const page = await context.newPage();
-    fixture.page = page;
-    fixture.logger = createLogger(options(scenarioName));
+// Before hook for scenarios tagged with @auth
+Before({ tags: "@auth" }, async function ({ pickle }) {
+  const scenarioName = pickle.name + pickle.id;
+  context = await browser.newContext({
+    storageState: getStorageState(pickle.name),
+    recordVideo: {
+      dir: "test-results/videos",
+    },
+  });
+  await context.tracing.start({
+    name: scenarioName,
+    title: pickle.name,
+    sources: true,
+    screenshots: true,
+    snapshots: true,
+  });
+  const page = await context.newPage();
+  fixture.page = page;
+  fixture.logger = createLogger(options(scenarioName));
 });
 
+After(async function ({ pickle, result }) {
+  let videoPath: string = "";
+  let img: Buffer = Buffer.from("");
+  const tracePath = `./test-results/traces/${pickle.name}.zip`;
 
-// After every Scenario step it is executed
-// AfterStep(async function ({pickle,result}) {
-//  const img =await pageFixture.page.screenshot({path: `./test-results/screenshots/${pickle.name}.png`, type:'png'});
-//   await this.attach(img, "image/png");
-// });
+  if (result?.status === Status.PASSED || result?.status === Status.FAILED) {
+    img = await fixture.page.screenshot({
+      path: `./test-results/screenshots/${pickle.name}.png`,
+      type: "png",
+    });
+    const video = fixture.page.video();
+    videoPath = video ? await video.path() : "";
+  }
 
-//Executes after every scenario:
-//If the scenario passed:
-//Takes a screenshot.
-//Retrieves the recorded video file path.
-//Stops tracing and saves the .zip.
-//Cleans up the page and context.
-//Attaches screenshot, video, and a trace link to the Cucumber report.
-After(async function ({pickle, result}) {
-  let videoPath: string='';
-  let img: Buffer=Buffer.from('');
-  const path = `./test-results/traces/${pickle.name}.zip`;
-    if (result?.status === Status.PASSED) {
-        img =await fixture.page.screenshot({path: `./test-results/screenshots/${pickle.name}.png`, type:'png'});
-        
-        const video = fixture.page.video();
-        videoPath =video? await video.path():'';
-   
-    }
-    await context.tracing.stop({ path: path });
+  await context.tracing.stop({ path: tracePath });
+  await fixture.page.close();
+  await context.close();
+
+  // Attach screenshot to reports (Cucumber & Allure)
+  if (img) {
+    await this.attach(img, "image/png");
+  }
+
+  // Attach video to reports (Cucumber & Allure)
+  if (videoPath && fs.existsSync(videoPath)) {
+    const videoBuffer = fs.readFileSync(videoPath);
+    await this.attach(videoBuffer, "video/webm");
+  }
+
+  // Attach trace link as HTML to reports
+  const traceFileLink = `<a href="https://trace.playwright.dev/">Open ${tracePath}</a>`;
+  await this.attach(`Trace file: ${traceFileLink}`, "text/html");
+});
+
+AfterAll(async function () {
+  if (fixture.page) {
     await fixture.page.close();
-    await context.close();
+  }
 
-  if(result?.status === Status.PASSED){
+  if (browser) {
+    await browser.close();
+  }
+});
 
-    this.attach(img, "image/png");
-
-   if(videoPath){
-
-   this.attach(fs.readFileSync(videoPath), 'video/webm');
-
-    const traceFileLink = `<a href="https://trace.playwright.dev/">Open ${path}</a>`
-        await this.attach(`Trace file: ${traceFileLink}`, 'text/html');
-
+function getStorageState(user: string): string | undefined {
+  if (user.endsWith("admin")) {
+    return "src/helper/auth/admin.json";
+  } else if (user.endsWith("lead")) {
+    return "src/helper/auth/lead.json";
   }
 }
-});
-
-//Ensures any remaining page/context is closed.
-//Closes the browser completely.
-AfterAll(async function () {
- if(fixture.page){
-  await fixture.page.close();
- }
-
- if(browser){   
-  await browser.close();
- }
-}); 
-
-//Determines which authentication state file to load based on scenario identifier.
-//Returns a path to the JSON representing prior logged‑in session.
-function getStorageState(user:string): string | { cookies: Array<{ name: string; value: string; domain: string; path: string; expires: number; httpOnly: boolean; secure: boolean; sameSite: "Strict" | "Lax" | "None"; }>; origins: Array<{ origin: string; localStorage: Array<{ name: string; value: string; }>; }>; } | undefined {
- if(user.endsWith("admin")){
-  return "src/helper/auth/admin.json";
- }
- else if(user.endsWith("lead")){
-  return "src/helper/auth/lead.json";
- }
- 
-}
-

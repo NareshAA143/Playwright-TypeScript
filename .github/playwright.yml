@@ -27,3 +27,8 @@ jobs:
           name: Report
           path: test-results
           retention-days: 2
+
+
+#defines a CI/CD pipeline for automatically running your Playwright Cucumber BDD tests whenever changes are made to your codebase.
+
+          

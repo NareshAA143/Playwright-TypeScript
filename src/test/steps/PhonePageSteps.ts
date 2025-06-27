@@ -1,10 +1,7 @@
 import { Given,When,Then,setDefaultTimeout, Before } from "@cucumber/cucumber"
 setDefaultTimeout(60 * 1000*2);
-import { expect } from "playwright/test"
-import { fixture } from "../../hooks/pageFixture";
-import LoginPage from "../../pages/LoginPage";  
+import { fixture } from "../../hooks/pageFixture"; 
 import Assert from "../../helper/wrapper/assert";
-import data from "../../helper/util/test-data/LoginData.json";
 import PhonesPage from "../../pages/PhonesPage";
 
 
@@ -36,3 +33,4 @@ Then('User clicks on iphone6', async function () {
         fixture.logger.info("User clicks on iphone6");
 
 })
+
