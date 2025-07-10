@@ -64,7 +64,7 @@ After(async function ({ pickle, result }) {
   let img: Buffer = Buffer.from("");
   const tracePath = `./test-results/traces/${pickle.name}.zip`;
 
-  if (result?.status === Status.PASSED || result?.status === Status.FAILED) {
+  if (result?.status === Status.PASSED || result?.status === Status.FAILED){
     img = await fixture.page.screenshot({
       path: `./test-results/screenshots/${pickle.name}.png`,
       type: "png",

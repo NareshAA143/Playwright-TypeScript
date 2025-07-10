@@ -7,11 +7,15 @@ module.exports = {
       "src/hooks/*.ts",
       "src/test/steps/*.ts"
     ],
+    requireModule: [
+      "ts-node/register"
+    ],
     format: [
       "progress-bar",
       "html:test-results/cucumber-report.html",
       "json:test-results/cucumber-report.json",
-      "allure-cucumberjs/reporter"
+      "allure-cucumberjs/reporter",
+      "rerun:@rerun.txt"
     ],
     formatOptions: {
       resultsDir: "allure-results"
@@ -24,11 +28,15 @@ module.exports = {
       "src/hooks/*.ts",
       "src/test/steps/*.ts"
     ],
+    requireModule: [
+      "ts-node/register"
+    ],
     format: [
       "progress-bar",
       "html:test-results/cucumber-report.html",
       "json:test-results/cucumber-report.json",
-      "allure-cucumberjs/reporter"
+      "allure-cucumberjs/reporter",
+      "rerun:@rerun.txt"
     ],
     formatOptions: {
       resultsDir: "allure-results"
