@@ -3,6 +3,8 @@ module.exports = {
   default: {
     tags: process.env.npm_config_TAGS || "",
     paths: ["src/test/features/*.feature"],
+    publishQuiet: true, 
+    dryRun: false,
     require: [
       "src/hooks/*.ts",
       "src/test/steps/*.ts"
@@ -18,12 +20,14 @@ module.exports = {
       "rerun:@rerun.txt"
     ],
     formatOptions: {
-      resultsDir: "allure-results"
+      resultsDir: "allure-results",
+      snippetInterface: "async-await"
     },
     parallel: 2
   },
   rerun: {
-    paths: ["src/test/features/*.feature"],
+    publishQuiet: true, 
+    dryRun: false,
     require: [
       "src/hooks/*.ts",
       "src/test/steps/*.ts"
@@ -39,8 +43,9 @@ module.exports = {
       "rerun:@rerun.txt"
     ],
     formatOptions: {
-      resultsDir: "allure-results"
+      resultsDir: "allure-results",
+      snippetInterface: "async-await"
     },
-    parallel: 2
+    parallel: 4
   }
 };
