@@ -1,27 +1,83 @@
-name: Playwright Tests
+name: Playwright Cucumber BDD Tests
+
 on:
   push:
     branches: [ main, master ]
   pull_request:
     branches: [ main, master ]
+  workflow_dispatch:
+    inputs:
+      tags:
+        description: 'Cucumber tag(s) to run, e.g., @smoke'
+        required: false
+        default: ''
+
 jobs:
   test:
     timeout-minutes: 60
-    runs-on: ubuntu-latest #windows-latest
+    runs-on: ubuntu-latest
+
     steps:
-    - uses: actions/checkout@v4
-    - uses: actions/setup-node@v4
-      with:
-        node-version: lts/*
-    - name: Install dependencies
-      run: npm ci
-    - name: Install Playwright Browsers
-      run: npx playwright install --with-deps
-    - name: Run Playwright tests
-      run: npx playwright test
-    - uses: actions/upload-artifact@v4
-      if: ${{ !cancelled() }}
-      with:
-        name: playwright-report
-        path: playwright-report/
-        retention-days: 30
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: lts/*
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Playwright Browsers
+        run: npx playwright install --with-deps
+
+      - name: Run Cucumber BDD Tests
+        run: npm test -- --tags ${{ github.event.inputs.tags }}
+
+      - name: Generate Allure Report
+        run: npm run allure:generate
+
+      - name: Upload Cucumber Reports (JSON/HTML)
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: cucumber-html-report
+          path: test-results/
+          retention-days: 14
+
+      - name: Upload Allure Results
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: allure-results
+          path: allure-results/
+          retention-days: 14
+
+      - name: Upload Allure Report (HTML)
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: allure-report
+          path: allure-report/
+          retention-days: 14
+
+  deploy-report:
+    runs-on: ubuntu-latest
+    needs: test
+    if: ${{ github.ref == 'refs/heads/main' }} # deploy only from main
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Download Allure Report artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: allure-report
+          path: allure-report
+
+      - name: Deploy Allure Report to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: allure-report
