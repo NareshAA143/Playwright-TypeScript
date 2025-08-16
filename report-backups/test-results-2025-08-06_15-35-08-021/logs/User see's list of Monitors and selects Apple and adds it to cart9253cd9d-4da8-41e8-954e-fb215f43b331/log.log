@@ -1,0 +1,14 @@
+info: Jul-16-2025 11:51:08: 	User Navigated to the application
+info: Jul-16-2025 11:51:08: 	User click on the login link
+info: Jul-16-2025 11:51:08: 	User enters the username
+info: Jul-16-2025 11:51:08: 	User enters the password
+info: Jul-16-2025 11:51:09: 	User click on the login button
+info: Jul-16-2025 11:51:09: 	User is on the Home page
+info: Jul-16-2025 11:51:13: 	User clicks on Monitors
+info: Jul-16-2025 11:51:13: 	User is on the Monitors page
+info: Jul-16-2025 11:51:14: 	User see's list of monitors
+info: Jul-16-2025 11:51:14: 	list of monitors: Samsung galaxy s6,Nokia lumia 1520,Nexus 6,Samsung galaxy s7,Iphone 6 32gb,Sony xperia z5,HTC One M9,Sony vaio i5,Sony vaio i7
+info: Jul-16-2025 11:51:14: 	User clicks on Apple Monitor
+info: Jul-16-2025 11:51:14: 	User is on Add to cart page
+info: Jul-16-2025 11:51:16: 	User clicks on Add to cart button
+info: Jul-16-2025 11:51:16: 	User logged out successfully
