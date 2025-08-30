@@ -1,0 +1,14 @@
+info: Aug-28-2025 12:32:27: 	User Navigated to the application
+info: Aug-28-2025 12:32:27: 	User click on the login link
+info: Aug-28-2025 12:32:28: 	User enters the username
+info: Aug-28-2025 12:32:28: 	User enters the password
+info: Aug-28-2025 12:32:28: 	User click on the login button
+info: Aug-28-2025 12:32:28: 	User is on the Home page
+info: Aug-28-2025 12:32:29: 	User clicks on Phones
+info: Aug-28-2025 12:32:29: 	User is on Phones Page
+info: Aug-28-2025 12:32:30: 	list of Phones: Samsung galaxy s6,Nokia lumia 1520,Nexus 6,Samsung galaxy s7,Iphone 6 32gb,Sony xperia z5,HTC One M9,Sony vaio i5,Sony vaio i7
+info: Aug-28-2025 12:32:30: 	User see's list of Phones
+info: Aug-28-2025 12:32:30: 	User clicks on iphone6
+info: Aug-28-2025 12:32:30: 	User is on Add to cart page
+info: Aug-28-2025 12:32:31: 	User clicks on Add to cart button
+info: Aug-28-2025 12:32:32: 	User logged out successfully
