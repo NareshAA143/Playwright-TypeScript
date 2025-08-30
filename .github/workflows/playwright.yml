@@ -17,6 +17,10 @@ jobs:
   test:
     runs-on: ubuntu-latest
 
+    strategy:
+      matrix:
+        browser: [chromium, firefox, webkit]
+
     steps:
       # 1️⃣ Checkout code
       - name: Checkout repository
@@ -32,15 +36,16 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      # 4️⃣ Run Playwright Cucumber tests (all or tagged)
+      # 4️⃣ Run Playwright Cucumber tests
       - name: Run Playwright Cucumber tests
         run: npm run test:with-report1
         env:
-          npm_config_tags: ${{ github.event.inputs.tags || "" }}
+          BROWSER: ${{ matrix.browser }}
+          npm_config_tags: ${{ github.event.inputs.tags || '' }}
 
       # 5️⃣ Upload Allure report
       - name: Upload Allure Report
         uses: actions/upload-artifact@v3
         with:
-          name: allure-report
+          name: allure-report-${{ matrix.browser }}
           path: allure-report
