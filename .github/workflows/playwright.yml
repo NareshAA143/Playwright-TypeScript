@@ -8,10 +8,6 @@ on:
       tags:
         description: 'Cucumber tag(s) to run (optional, e.g. @auth or @smoke)'
         default: ''
-  schedule:
-    - cron: '0 9 * * *'      # Daily at 9 AM
-    - cron: '0 12 * * 0'     # Weekly Sunday 12 PM
-    - cron: '0 9 28-31 * *'  # Month-end at 9 AM
 
 jobs:
   test:
@@ -23,41 +19,41 @@ jobs:
         browser: [chromium, firefox, webkit]
 
     steps:
-      # 1️⃣ Checkout code
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      # 2️⃣ Setup Node.js
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 20
 
-      # 3️⃣ Install dependencies
       - name: Install dependencies
         run: npm ci
 
-      # 4️⃣ Run Playwright Cucumber tests with tags
-      - name: Run Playwright Cucumber tests
+      - name: Run Playwright Cucumber tests (with tags if provided)
         run: |
-          npm run test -- --tags "${{ github.event.inputs.tags }}"
-          npm run allure:generate
+          export ALLURE_RESULTS=allure-results-${{ matrix.browser }}
+          export ALLURE_REPORT=allure-report-${{ matrix.browser }}
+
+          if [ -z "${{ github.event.inputs.tags }}" ]; then
+            # No tag provided → run all tests
+            npm run test:with-report1
+          else
+            # Tag provided → pass to script
+            npm run test:with-report1 -- --tags "${{ github.event.inputs.tags }}"
+          fi
         env:
           BROWSER: ${{ matrix.browser }}
 
-      # 5️⃣ Upload Allure report as artifact (downloadable zip)
       - name: Upload Allure Report
         uses: actions/upload-artifact@v4
         with:
           name: allure-report-${{ matrix.browser }}
-          path: allure-report
+          path: allure-report-${{ matrix.browser }}
 
-      # 6️⃣ Publish Allure report to GitHub Pages
       - name: Deploy Allure report to GitHub Pages
-        if: ${{ matrix.browser == 'chromium' }}   # only publish once
+        if: ${{ matrix.browser == 'chromium' }}
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./allure-report
-
-
+          publish_dir: ./allure-report-chromium
