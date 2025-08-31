@@ -6,8 +6,12 @@ on:
   workflow_dispatch:
     inputs:
       tags:
-        description: 'Cucumber tag(s) to run, optional (e.g. @auth)'
+        description: 'Cucumber tag(s) to run (optional, e.g. @auth or @smoke)'
         default: ''
+  schedule:
+    - cron: '0 9 * * *'      # Daily at 9 AM
+    - cron: '0 12 * * 0'     # Weekly Sunday 12 PM
+    - cron: '0 9 28-31 * *'  # Month-end at 9 AM
 
 jobs:
   test:
@@ -19,18 +23,21 @@ jobs:
         browser: [chromium, firefox, webkit]
 
     steps:
+      # 1️⃣ Checkout repository
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@f7e5f57f18f6d4f9e7f8c8f5b1cbd1d9f3d34abc
 
+      # 2️⃣ Setup Node.js
       - name: Setup Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@f7e5f57f18f6d4f9e7f8c8f5b1cbd1d9f3d34abc
         with:
           node-version: 20
 
+      # 3️⃣ Install dependencies
       - name: Install dependencies
         run: npm ci
 
-      # 🔹 Clean old Allure results and report
+      # 4️⃣ Clean previous Allure results
       - name: Clean previous Allure results
         run: |
           rm -rf allure-results
@@ -38,28 +45,33 @@ jobs:
           mkdir -p allure-results
           mkdir -p allure-report
 
+      # 5️⃣ Run Playwright Cucumber tests
       - name: Run Playwright Cucumber tests
         run: npm run test:with-report1
         env:
           BROWSER: ${{ matrix.browser }}
           npm_config_tags: ${{ github.event.inputs.tags }}
 
+      # 6️⃣ Install Allure CLI
       - name: Install Allure CLI
         run: npm install -g allure-commandline --save-dev
 
+      # 7️⃣ Generate Allure Report
       - name: Generate Allure Report
         run: |
           allure generate allure-results --clean -o allure-report
 
+      # 8️⃣ Upload Allure Report as artifact for all browsers
       - name: Upload Allure Report
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@0839620
         with:
           name: allure-report-${{ matrix.browser }}
           path: allure-report
 
+      # 9️⃣ Deploy Chromium Allure report to GitHub Pages
       - name: Deploy Allure report to GitHub Pages
         if: ${{ matrix.browser == 'chromium' }}
-        uses: peaceiris/actions-gh-pages@v3
+        uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GH_PAGES_TOKEN }}
           publish_dir: ./allure-report
