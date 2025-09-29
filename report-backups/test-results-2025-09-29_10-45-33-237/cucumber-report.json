@@ -1,0 +1,117 @@
+[
+  {
+    "description": "",
+    "elements": [
+      {
+        "description": "",
+        "id": "orangehrm-application-feature;leave-functionality",
+        "keyword": "Scenario",
+        "line": 23,
+        "name": "Leave functionality",
+        "steps": [
+          {
+            "keyword": "Before",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 642262600
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 3,
+            "name": "User navigates to OrangeHRM Loginpage",
+            "match": {
+              "location": "src\\test\\steps\\OrangeHRMLoginPageSteps.ts:36"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 3523370100
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 4,
+            "name": "User enters username and password",
+            "match": {
+              "location": "src\\test\\steps\\OrangeHRMLoginPageSteps.ts:42"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 662956399
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 5,
+            "name": "user clicks on login button",
+            "match": {
+              "location": "src\\test\\steps\\OrangeHRMLoginPageSteps.ts:49"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 1842335100
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 24,
+            "name": "user clicks on Leave button",
+            "match": {
+              "location": "src\\test\\steps\\OrangeHRMLoginPageSteps.ts:58"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 1915456900
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 25,
+            "name": "user selects from date",
+            "result": {
+              "status": "ambiguous",
+              "duration": 0
+            }
+          },
+          {
+            "keyword": "After",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 371240700
+            },
+            "embeddings": [
+              {
+                "data": "",
+                "mime_type": "image/png"
+              },
+              {
+                "data": "VHJhY2UgZmlsZTogPGEgaHJlZj0iaHR0cHM6Ly90cmFjZS5wbGF5d3JpZ2h0LmRldi8iPk9wZW4gLi90ZXN0LXJlc3VsdHMvdHJhY2VzL0xlYXZlIGZ1bmN0aW9uYWxpdHkuemlwPC9hPg==",
+                "mime_type": "text/html"
+              }
+            ]
+          }
+        ],
+        "tags": [
+          {
+            "name": "@OrangeHRMLeave",
+            "line": 22
+          }
+        ],
+        "type": "scenario"
+      }
+    ],
+    "id": "orangehrm-application-feature",
+    "line": 1,
+    "keyword": "Feature",
+    "name": "OrangeHRM application Feature",
+    "tags": [],
+    "uri": "src\\test\\features\\OrangeHRM.feature"
+  }
+]

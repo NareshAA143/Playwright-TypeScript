@@ -1,49 +1,61 @@
-import {expect,Page} from "@playwright/test";
+import { expect, Page, Locator } from "@playwright/test";
 import PlaywrightWrapper from "../helper/wrapper/PlaywrightWrapper";
+
 export default class OrangeHRMAdminPage {
+  private page: Page;
+  private base: PlaywrightWrapper;
 
-   private page: Page;
-   
-       private base: PlaywrightWrapper;
-   
-       constructor( page: Page) {
-           this.page = page;
-           this.base = new PlaywrightWrapper(page);
-       }
+  // Locators
+  private userHeading: Locator;
+  private usernameInput: Locator;
+  private dropdowns: Locator;
+  private employeeNameInput: Locator;
+  private statusDropdown: Locator;
+  private searchButton: Locator;
 
-    private Elements={
-        user: "//h6[normalize-space()='Admin']",
-        username:"div[class='oxd-input-group oxd-input-field-bottom-space'] div input[class='oxd-input oxd-input--active']",
-        dropdowns:".oxd-select-wrapper",
-        employeeName:"input[placeholder='Type for hints...']",
-        statusdropdown:"//div[contains(@class,'oxd-select-wrapper')]//div[contains(@class,'oxd-select-text-input')]",
-        dropdownOption:(optionText:string)=>`//div[@role='option']//span[text()='${optionText}']`,
-        search:"button[type='submit']"    
-    }
+  constructor(page: Page) {
+    this.page = page;
+    this.base = new PlaywrightWrapper(page);
 
-    public async adminpage(){
-        await expect(this.page.locator(this.Elements.user)).toBeVisible();
-    }
-    public async enterUserName(userName: string) {
-        await this.page.fill(this.Elements.username, userName);
-    
-    }
-    public async selectUserRole(dropdownIndex: number, optionText:string) { 
-        const dropdownElements = await this.page.$$(this.Elements.dropdowns)       
-        await dropdownElements[dropdownIndex].click();
-        await this.page.locator(`//div[@role='option']//span[text()='${optionText}']`).click();
-        
-    }
-    public async enterEmployeeName(employeeName: string) {
-        await this.page.fill(this.Elements.employeeName, employeeName);
-    
-    }
-    public async selectStatus(dropdownIndex: number, optionText:string) {
-    const dropdownElements = await this.page.$$(this.Elements.dropdowns)       
-        await dropdownElements[dropdownIndex].click();
-        await this.page.locator(`//div[@role='option']//span[text()='${optionText}']`).click();
-    }  
-    public async clickOnSearch() {
-        await this.page.click(this.Elements.search);
-    }
+    // initialize locators
+    this.userHeading = this.page.locator("//h6[normalize-space()='Admin']");
+    this.usernameInput = this.page.locator(
+      "div[class='oxd-input-group oxd-input-field-bottom-space'] div input[class='oxd-input oxd-input--active']"
+    );
+    this.dropdowns = this.page.locator(".oxd-select-wrapper");
+    this.employeeNameInput = this.page.locator("input[placeholder='Type for hints...']");
+    this.statusDropdown = this.page.locator(
+      "//div[contains(@class,'oxd-select-wrapper')]//div[contains(@class,'oxd-select-text-input')]"
+    );
+    this.searchButton = this.page.locator("button[type='submit']");
+  }
+
+  //Action methods
+  public async verifyAdminPage() {
+    await expect(this.userHeading).toBeVisible();
+  }
+
+  public async enterUserName(userName: string) {
+    await this.usernameInput.fill(userName);
+  }
+
+  public async selectUserRole(dropdownIndex: number, optionText: string) {
+    const dropdownElement = this.dropdowns.nth(dropdownIndex);
+    await dropdownElement.click();
+    await this.page.locator(`//div[@role='option']//span[text()='${optionText}']`).click();
+  }
+
+  public async enterEmployeeName(employeeName: string) {
+    await this.employeeNameInput.fill(employeeName);
+  }
+
+  public async selectStatus(dropdownIndex: number, optionText: string) {
+    const dropdownElement = this.dropdowns.nth(dropdownIndex);
+    await dropdownElement.click();
+    await this.page.locator(`//div[@role='option']//span[text()='${optionText}']`).click();
+  }
+
+  public async clickOnSearch() {
+    await this.searchButton.click();
+  }
 }
