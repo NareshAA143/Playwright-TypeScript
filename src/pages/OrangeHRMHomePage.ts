@@ -77,12 +77,12 @@ export default class OrangeHRMHomePage {
 
   public async clickOnAdmin() {
     await expect(this.adminBtn).toBeVisible();
-    //await this.adminBtn.click();
+    await this.adminBtn.click();
   }
 
   public async clickOnLeave() {
     await expect(this.leaveBtn).toBeVisible();
-    //await this.leaveBtn.click();
+    await this.leaveBtn.click();
   }
 
   public async clickWelcomeAdmin() {

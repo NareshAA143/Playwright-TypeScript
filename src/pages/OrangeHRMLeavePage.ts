@@ -72,6 +72,7 @@ export default class OrangeHRMLeavePage {
     // Initialize locators
     this.calendarIcon = this.page.locator(".oxd-icon.bi-calendar").first();
     this.applyLink = this.page.locator("//a[normalize-space()='Apply']");
+    
   }
 
   // Dynamic locators as helper methods
