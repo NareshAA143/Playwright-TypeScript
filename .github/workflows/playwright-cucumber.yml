@@ -1,0 +1,92 @@
+name: Playwright Cucumber CI with Auto Rerun
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test:
+    name: Run Playwright Cucumber Tests
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [18.x]
+
+    steps:
+      # Step 1: Checkout code
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # Step 2: Setup Node.js
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+
+      # Step 3: Install dependencies
+      - name: Install dependencies
+        run: npm ci
+
+      # Step 4: Install Playwright Browsers
+      - name: Install Playwright Browsers
+        run: npx playwright install --with-deps
+
+      # Step 5: Run Playwright + Cucumber Tests
+      - name: Run Main Test Suite
+        run: npm run test:with-report1
+
+      # Step 6: Check for rerun file and re-run failed tests
+      - name: Rerun Failed Tests (if any)
+        if: always() && hashFiles('rerun.txt') != ''
+        run: |
+          echo "Re-running failed tests..."
+          npm run test:failed
+        continue-on-error: true
+
+      # Step 7: Generate Allure Report
+      - name: Generate Allure Report
+        if: always()
+        run: |
+          npx allure generate allure-results --clean -o allure-report || echo "No Allure results to generate"
+
+      # Step 8: Upload Allure Report as Artifact
+      - name: Upload Allure Report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: allure-report
+          path: allure-report
+
+      # Step 9: Upload Raw Test Results (optional)
+      - name: Upload Test Results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results
+          path: test-results
+
+  publish-report:
+    name: Publish Allure Report to GitHub Pages
+    needs: test
+    runs-on: ubuntu-latest
+    if: always()
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Download Allure Report artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: allure-report
+          path: ./allure-report
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./allure-report
