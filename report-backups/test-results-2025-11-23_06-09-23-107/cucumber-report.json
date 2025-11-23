@@ -1,0 +1,164 @@
+[
+  {
+    "description": "",
+    "elements": [
+      {
+        "description": "",
+        "id": "orangehrm-application-feature;leave-functionality",
+        "keyword": "Scenario",
+        "line": 21,
+        "name": "Leave functionality",
+        "steps": [
+          {
+            "keyword": "Before",
+            "hidden": true,
+            "result": {
+              "status": "failed",
+              "duration": 103413260899,
+              "error_message": "browserContext.newPage: Target page, context or browser has been closed\n    at CustomWorld.<anonymous> (C:\\Documents\\PlaywrightTypescript_CucumberFramework\\src\\hooks\\hooks.ts:39:29)\n    at fulfilled (C:\\Documents\\PlaywrightTypescript_CucumberFramework\\src\\hooks\\hooks.ts:38:58)"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 3,
+            "name": "User navigates to OrangeHRM Loginpage",
+            "match": {
+              "location": "src\\test\\steps\\OrangeHRMSteps.spec.ts:8"
+            },
+            "result": {
+              "status": "skipped",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 4,
+            "name": "User enters username and password",
+            "match": {
+              "location": "src\\test\\steps\\OrangeHRMSteps.spec.ts:14"
+            },
+            "result": {
+              "status": "skipped",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 5,
+            "name": "user clicks on login button",
+            "match": {
+              "location": "src\\test\\steps\\OrangeHRMSteps.spec.ts:21"
+            },
+            "result": {
+              "status": "skipped",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 22,
+            "name": "user clicks on user profile dropdown",
+            "match": {
+              "location": "src\\test\\steps\\OrangeHRMSteps.spec.ts:33"
+            },
+            "result": {
+              "status": "skipped",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 23,
+            "name": "user clicks on support option",
+            "match": {
+              "location": "src\\test\\steps\\OrangeHRMSteps.spec.ts:38"
+            },
+            "result": {
+              "status": "skipped",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 24,
+            "name": "user clicks on Leave button",
+            "match": {
+              "location": "src\\test\\steps\\OrangeHRMSteps.spec.ts:46"
+            },
+            "result": {
+              "status": "skipped",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 25,
+            "name": "user clicks on selects Show leave with status dropdown",
+            "match": {
+              "location": "src\\test\\steps\\OrangeHRMSteps.spec.ts:52"
+            },
+            "result": {
+              "status": "skipped",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 26,
+            "name": "user selects Cancelled dropdown",
+            "match": {
+              "location": "src\\test\\steps\\OrangeHRMSteps.spec.ts:57"
+            },
+            "result": {
+              "status": "skipped",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 27,
+            "name": "user selects date",
+            "match": {
+              "location": "src\\test\\steps\\OrangeHRMSteps.spec.ts:93"
+            },
+            "result": {
+              "status": "skipped",
+              "duration": 0
+            }
+          },
+          {
+            "keyword": "After",
+            "hidden": true,
+            "result": {
+              "status": "failed",
+              "duration": 1850100,
+              "error_message": "TypeError: Cannot read properties of undefined (reading 'screenshot')\n    at CustomWorld.<anonymous> (C:\\Documents\\PlaywrightTypescript_CucumberFramework\\src\\hooks\\hooks.ts:77:27)\n    at C:\\Documents\\PlaywrightTypescript_CucumberFramework\\src\\hooks\\hooks.ts:41:71\n    at __awaiter (C:\\Documents\\PlaywrightTypescript_CucumberFramework\\src\\hooks\\hooks.ts:37:12)\n    at CustomWorld.<anonymous> (C:\\Documents\\PlaywrightTypescript_CucumberFramework\\src\\hooks\\hooks.ts:105:12)"
+            }
+          }
+        ],
+        "tags": [
+          {
+            "name": "@OrangeHRMLeave",
+            "line": 20
+          }
+        ],
+        "type": "scenario"
+      }
+    ],
+    "id": "orangehrm-application-feature",
+    "line": 1,
+    "keyword": "Feature",
+    "name": "OrangeHRM application Feature",
+    "tags": [],
+    "uri": "src\\test\\features\\OrangeHRM.feature"
+  }
+]

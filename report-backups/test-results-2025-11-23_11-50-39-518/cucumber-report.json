@@ -1,0 +1,163 @@
+[
+  {
+    "description": "",
+    "elements": [
+      {
+        "description": "",
+        "id": "orangehrm-application-feature;admin-functionality",
+        "keyword": "Scenario",
+        "line": 12,
+        "name": "Admin functionality",
+        "steps": [
+          {
+            "keyword": "Before",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 1425027900
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 3,
+            "name": "User navigates to OrangeHRM Loginpage",
+            "result": {
+              "status": "ambiguous",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 4,
+            "name": "User enters username and password",
+            "result": {
+              "status": "ambiguous",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 5,
+            "name": "user clicks on login button",
+            "result": {
+              "status": "ambiguous",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 13,
+            "name": "user clicks on Admin button",
+            "match": {
+              "location": "src\\test\\steps\\OrangeHRMAdmin.spec.ts:26"
+            },
+            "result": {
+              "status": "skipped",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 14,
+            "name": "user enters username",
+            "match": {
+              "location": "src\\test\\steps\\OrangeHRMAdmin.spec.ts:31"
+            },
+            "result": {
+              "status": "skipped",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 15,
+            "name": "user selects user role",
+            "match": {
+              "location": "src\\test\\steps\\OrangeHRMAdmin.spec.ts:35"
+            },
+            "result": {
+              "status": "skipped",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 16,
+            "name": "user enters employee name",
+            "match": {
+              "location": "src\\test\\steps\\OrangeHRMAdmin.spec.ts:40"
+            },
+            "result": {
+              "status": "skipped",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 17,
+            "name": "user selects status",
+            "match": {
+              "location": "src\\test\\steps\\OrangeHRMAdmin.spec.ts:44"
+            },
+            "result": {
+              "status": "skipped",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 18,
+            "name": "user clicks on search",
+            "match": {
+              "location": "src\\test\\steps\\OrangeHRMAdmin.spec.ts:49"
+            },
+            "result": {
+              "status": "skipped",
+              "duration": 0
+            }
+          },
+          {
+            "keyword": "After",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 286755799
+            },
+            "embeddings": [
+              {
+                "data": "",
+                "mime_type": "image/png"
+              },
+              {
+                "data": "VHJhY2UgZmlsZTogPGEgaHJlZj0iaHR0cHM6Ly90cmFjZS5wbGF5d3JpZ2h0LmRldi8iPk9wZW4gLi90ZXN0LXJlc3VsdHMvdHJhY2VzL0FkbWluIGZ1bmN0aW9uYWxpdHkuemlwPC9hPg==",
+                "mime_type": "text/html"
+              }
+            ]
+          }
+        ],
+        "tags": [
+          {
+            "name": "@OrangeHRMAdmin",
+            "line": 11
+          }
+        ],
+        "type": "scenario"
+      }
+    ],
+    "id": "orangehrm-application-feature",
+    "line": 1,
+    "keyword": "Feature",
+    "name": "OrangeHRM application Feature",
+    "tags": [],
+    "uri": "src\\test\\features\\OrangeHRM.feature"
+  }
+]

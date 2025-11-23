@@ -5,12 +5,16 @@ export default class OrangeHRMLoginPage {
   private page: Page;
   private base: PlaywrightWrapper;
 
+/* Locators are marked private to prevent direct access from outside the class, 
+and they are initialized in the constructor because 
+the constructor receives the Playwright page object needed to create those locators. */
+
   // Locators
   private userNameInput: Locator;
   private passwordInput: Locator;
   private loginButton: Locator;
 
-  constructor(page: Page) {
+  constructor(page: Page) {  
     this.page = page;
     this.base = new PlaywrightWrapper(page);
 
@@ -29,7 +33,7 @@ export default class OrangeHRMLoginPage {
   public async enterUserName(userName: string) {
     await this.userNameInput.fill(userName);
   }
-
+ 
   public async enterPassword(password: string) {
     await this.passwordInput.fill(password);
   }

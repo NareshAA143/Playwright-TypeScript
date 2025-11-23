@@ -1,0 +1,13 @@
+info: Nov-23-2025 16:20:46: 	User navigated to the application
+info: Nov-23-2025 16:20:46: 	User entered username and password
+info: Nov-23-2025 16:20:47: 	User clicked login button
+info: Nov-23-2025 16:20:49: 	User clicked on user profile dropdown
+info: Nov-23-2025 16:20:50: 	User clicked on support option
+info: Nov-23-2025 16:20:50: 	User able to see customer support label
+info: Nov-23-2025 16:20:51: 	User clicked on Leave button
+info: Nov-23-2025 16:20:54: 	User clciks on dropdown selected Show leave with status
+info: Nov-23-2025 16:20:56: 	User clciks on dropdown selected Cancelled
+info: Nov-23-2025 16:21:00: 	User clciks on dropdown selected leave Type
+info: Nov-23-2025 16:21:07: 	User enters EmployeeName
+info: Nov-23-2025 16:21:11: 	User selects Sub unit
+info: Nov-23-2025 16:21:14: 	User clicks on Include Past Employees

@@ -1,0 +1,5 @@
+"DESCRIPTION","DURATION IN MS","NAME","PARENT SUITE","START TIME","STATUS","STOP TIME","SUB SUITE","SUITE","TEST CLASS","TEST METHOD"
+"","30858","Leave functionality","","Sun Nov 23 16:17:24 IST 2025","passed","Sun Nov 23 16:17:55 IST 2025","","","",""
+"","21433","Login validation","","Sun Nov 23 16:16:59 IST 2025","passed","Sun Nov 23 16:17:20 IST 2025","","","",""
+"","10905","Admin functionality","","Sun Nov 23 16:17:20 IST 2025","passed","Sun Nov 23 16:17:31 IST 2025","","","",""
+"","25580","Dropdown auto suggest click","","Sun Nov 23 16:16:59 IST 2025","passed","Sun Nov 23 16:17:24 IST 2025","","","",""

@@ -1,46 +1,3 @@
-// import {expect,Page} from "@playwright/test";
-// import PlaywrightWrapper from "../helper/wrapper/PlaywrightWrapper";
-// export default class OrangeHRMHomePage {
-
-//    private page: Page;
-   
-//        private base: PlaywrightWrapper;
-   
-//        constructor( page: Page) {
-//            this.page = page;
-//            this.base = new PlaywrightWrapper(page);
-//        }
-
-//     private Elements={
-//     Dashboard: "//h6[normalize-space()='Dashboard']",
-//     userName:".oxd-userdropdown-name",
-//     logo: "img[alt='client brand banner']",
-//     AdminBtn:"//li[1]//a[1]//span[1]",
-//     LeaveBtn:"//span[normalize-space()='Leave']",
-//     dashBoard:"//h6[normalize-space()='Dashboard']",
-//     welcomeAdmin:"//a[@id='nameofuser']"
-//     }
-
-//     public async verifyHomePage() {
-//         await this.page.waitForTimeout(5000);
-//         await expect(this.page.locator(this.Elements.dashBoard)).toBeVisible();
-//         var dashboard= await this.page.locator(this.Elements.dashBoard).textContent();
-//         await expect(dashboard).toBe("Dashboard");
-        
-//     }
-//     public async clickOnAdmin() {
-//         await this.page.click(this.Elements.AdminBtn);
-//     }
-//     public async clickOnLeave() {
-//         await this.page.click(this.Elements.LeaveBtn);
-//     }
-//     public async VerifyWelcomeAdmin()
-//     {
-//         await this.page.locator(this.Elements.welcomeAdmin).click();
-//     }
-
-// }
-
 import { expect, Page, Locator } from "@playwright/test";
 import PlaywrightWrapper from "../helper/wrapper/PlaywrightWrapper";
 
@@ -55,6 +12,8 @@ export default class OrangeHRMHomePage {
   private adminBtn: Locator;
   private leaveBtn: Locator;
   private buzzBtn: Locator;
+  private supportBtn: Locator
+  private customerSupportLabel: Locator;
 
   constructor(page: Page) {
     this.page = page;
@@ -63,6 +22,8 @@ export default class OrangeHRMHomePage {
     // Initialize locators
     this.dashboardHeading = this.page.getByRole('heading', { name: 'Dashboard' });
     this.userName = this.page.locator(".oxd-userdropdown-name");
+    this.supportBtn=this.page.locator('[role="menuitem"]',{hasText:"Support"});
+    this.customerSupportLabel=this.page.locator('.orangehrm-sub-title');
     this.logo = this.page.locator("img[alt='client brand banner']");
     this.adminBtn = this.page.getByRole('link', { name: 'Admin' });
     this.leaveBtn = this.page.getByRole('link', { name: 'Leave' });
@@ -75,6 +36,19 @@ export default class OrangeHRMHomePage {
     await expect(this.dashboardHeading).toHaveText("Dashboard");
   }
 
+  public async clickOnUserNameDropdown() {
+    await expect(this.userName).toBeVisible();
+    await this.userName.click();
+  }
+
+  public async clickOnSupport() {
+    await expect(this.supportBtn).toBeVisible();
+    await this.supportBtn.click();
+  }
+  public async VerifyCustomerSupportLabel() {
+    await expect(this.customerSupportLabel).toBeVisible();
+    await expect(this.customerSupportLabel).toHaveText("Customer Support");
+  }
   public async clickOnAdmin() {
     await expect(this.adminBtn).toBeVisible();
     await this.adminBtn.click();
