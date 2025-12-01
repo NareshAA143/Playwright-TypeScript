@@ -6,7 +6,7 @@ import OrangeHRMHomePage from "../pages/OrangeHRMHomePage";
 import OrangeHRMLeavePage from "../pages/OrangeHRMLeavePage";
 import OrangeHRMAdminPage from "../pages/OrangeHRMAdminPage";
 import AmazonHomePage from "../pages/AmazonHomePage";
-
+import LetcodePage from "../pages/LetcodePage";
 export class CustomWorld extends World {
   // Playwright objects
   browser!: Browser;
@@ -20,6 +20,7 @@ export class CustomWorld extends World {
   leavePage!: OrangeHRMLeavePage;
   adminPage!: OrangeHRMAdminPage;
   amazonHomePage!: AmazonHomePage;
+  letcodePage!: LetcodePage;
 
   constructor(options: IWorldOptions) {
     super(options);
@@ -35,6 +36,7 @@ export class CustomWorld extends World {
     this.leavePage=new OrangeHRMLeavePage(this.page);
     this.adminPage=new OrangeHRMAdminPage(this.page);
     this.amazonHomePage=new AmazonHomePage(this.page);
+    this.letcodePage=new LetcodePage(this.page);
   }
 }
 
