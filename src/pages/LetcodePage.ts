@@ -84,7 +84,6 @@ export default class LetcodePage {
             await expect(rowText.locator("//input[@type='checkbox']")).toBeChecked();
         }
 
-
     }
     public async CheckSortTable() {
         await expect(this.sortTable).toBeVisible();
