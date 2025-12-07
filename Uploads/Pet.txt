@@ -1,0 +1,9 @@
+<Pet>
+  <id>9223372036854775030</id>
+  <name>doggie</name>//Pet.Name
+  <photoUrls>
+    <photoUrl>string</photoUrl>//Pet.photoUrls.photoUrl
+  </photoUrls>
+  <status>available</status>
+  <tags/>
+</Pet>

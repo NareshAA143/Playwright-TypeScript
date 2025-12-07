@@ -1,1 +1,0 @@
-{"315119989003c5d6ced03a68cb7a09e1:d41d8cd98f00b204e9800998ecf8427e":{"statistic":{"failed":0,"broken":0,"skipped":0,"passed":1,"unknown":0,"total":1},"items":[{"uid":"686bc4d061876154","status":"passed","statusDetails":"The test doesn't have an implementation.","time":{"start":1759142422438,"stop":1759142431408,"duration":8970}}]}}

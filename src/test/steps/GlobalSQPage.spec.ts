@@ -13,3 +13,8 @@ When('User fills ios date', async function(this:CustomWorld){
 When('User fills current date', async function(this:CustomWorld){
  await this.globalSQPage.FillCurrentDate();
 });
+
+When('user selects any date', async function(this:CustomWorld){
+ await this.globalSQPage.SelectAnyDate();   
+ 
+});

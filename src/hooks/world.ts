@@ -8,6 +8,12 @@ import OrangeHRMAdminPage from "../pages/OrangeHRMAdminPage";
 import AmazonHomePage from "../pages/AmazonHomePage";
 import LetcodePage from "../pages/LetcodePage";
 import GlobalSQPage from "../pages/GlobalSQPage";
+import Play1Page from "../pages/Play1Page";
+import FlipkartPage from "../pages/FlipkartPage";
+import TutorialsPage from "../pages/TutorialsPage";
+import  TestPages  from "../pages/TestPages";
+import UITapPage from "../pages/UITapPage";
+
 export class CustomWorld extends World {
   // Playwright objects
   browser!: Browser;
@@ -23,6 +29,11 @@ export class CustomWorld extends World {
   amazonHomePage!: AmazonHomePage;
   letcodePage!: LetcodePage;
   globalSQPage!: GlobalSQPage;
+  play1Page!: Play1Page;
+  flipkartPage!: FlipkartPage;
+  tutorialsPage!: TutorialsPage;
+  testPages!: TestPages;
+  uiTapPage!: UITapPage;
 
   constructor(options: IWorldOptions) {
     super(options);
@@ -40,6 +51,11 @@ export class CustomWorld extends World {
     this.amazonHomePage=new AmazonHomePage(this.page);
     this.letcodePage=new LetcodePage(this.page);
     this.globalSQPage=new GlobalSQPage(this.page);
+    this.play1Page=new Play1Page(this.page);
+    this.flipkartPage=new FlipkartPage(this.page);
+    this.tutorialsPage=new TutorialsPage(this.page);
+    this.testPages=new TestPages(this.page);
+    this.uiTapPage=new UITapPage(this.page);
   }
 }
 

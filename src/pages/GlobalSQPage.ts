@@ -60,4 +60,45 @@ public async FillCurrentDate() {
 
 }
 
+public async SelectAnyDate() {
+const targetYear='2026';
+const targetMonth="May";
+const targetDay="2";
+const iframe = await this.page.locator('#post-2661').getByRole('paragraph').locator('iframe').contentFrame();
+
+await this.dateInputBox.click();
+//Year selection
+while(true){
+    const displayedYearText=await iframe.locator('.ui-datepicker-year').textContent()||0;//The OR (||) operator returns the first truthy value.
+    console.log("displayedYearText :",displayedYearText);
+    if(displayedYearText===targetYear){
+        break;
+    }
+    if(displayedYearText<targetYear){
+    await iframe.locator('.ui-icon.ui-icon-circle-triangle-e').click();//next button
+    }
+    else{
+        await iframe.locator('.ui-icon.ui-icon-circle-triangle-w').click();//previous button
+    }
+
 }
+
+//Month selectors
+while(true){
+ const displayedMonthText=await iframe.locator('.ui-datepicker-month').textContent()||0;//The OR (||) operator returns the first truthy value.
+ console.log("displayedMonthText :",displayedMonthText);
+ if(displayedMonthText===targetMonth){
+     break;
+ }
+ if(displayedMonthText<targetMonth){
+     await iframe.locator('.ui-datepicker-next').click();//next button
+ }
+ else{
+     await iframe.locator('.ui-datepicker-prev').click();//previous button
+ }
+}
+await iframe.locator(`text="${targetDay}"`).click();
+await this.page.waitForTimeout(3000);
+
+
+}}
