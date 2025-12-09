@@ -13,6 +13,7 @@ import FlipkartPage from "../pages/FlipkartPage";
 import TutorialsPage from "../pages/TutorialsPage";
 import  TestPages  from "../pages/TestPages";
 import UITapPage from "../pages/UITapPage";
+import ToolsQAPage from "../pages/ToolsQAPage";
 
 export class CustomWorld extends World {
   // Playwright objects
@@ -34,6 +35,7 @@ export class CustomWorld extends World {
   tutorialsPage!: TutorialsPage;
   testPages!: TestPages;
   uiTapPage!: UITapPage;
+  toolsQAPage!: ToolsQAPage;
 
   constructor(options: IWorldOptions) {
     super(options);
@@ -56,6 +58,7 @@ export class CustomWorld extends World {
     this.tutorialsPage=new TutorialsPage(this.page);
     this.testPages=new TestPages(this.page);
     this.uiTapPage=new UITapPage(this.page);
+    this.toolsQAPage=new ToolsQAPage(this.page);
   }
 }
 
