@@ -14,7 +14,7 @@ import TutorialsPage from "../pages/TutorialsPage";
 import  TestPages  from "../pages/TestPages";
 import UITapPage from "../pages/UITapPage";
 import ToolsQAPage from "../pages/ToolsQAPage";
-
+import sausdemoPage from "../pages/SausdemoPage";
 export class CustomWorld extends World {
   // Playwright objects
   browser!: Browser;
@@ -36,6 +36,7 @@ export class CustomWorld extends World {
   testPages!: TestPages;
   uiTapPage!: UITapPage;
   toolsQAPage!: ToolsQAPage;
+  sausdemoPage!: sausdemoPage;
 
   constructor(options: IWorldOptions) {
     super(options);
@@ -59,6 +60,7 @@ export class CustomWorld extends World {
     this.testPages=new TestPages(this.page);
     this.uiTapPage=new UITapPage(this.page);
     this.toolsQAPage=new ToolsQAPage(this.page);
+    this.sausdemoPage=new sausdemoPage(this.page);
   }
 }
 

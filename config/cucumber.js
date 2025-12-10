@@ -3,7 +3,7 @@ module.exports = {
   default: {
     tags: process.env.npm_config_TAGS || "",
     paths: ["src/test/features/*.feature"],
-    publishQuiet: true, 
+    publishQuiet: true,
     dryRun: false,
     require: [
       "src/hooks/*.ts",
@@ -13,10 +13,10 @@ module.exports = {
       "ts-node/register"
     ],
     format: [
-      "progress-bar",
+      "pretty",                                 // ← console.log now works
       "html:test-results/cucumber-report.html",
       "json:test-results/cucumber-report.json",
-      "allure-cucumberjs/reporter", 
+      "allure-cucumberjs/reporter",
       "rerun:@rerun.txt"
     ],
     formatOptions: {
@@ -25,8 +25,9 @@ module.exports = {
     },
     parallel: 2
   },
+
   rerun: {
-    publishQuiet: true, 
+    publishQuiet: true,
     dryRun: false,
     require: [
       "src/hooks/*.ts",
@@ -36,7 +37,7 @@ module.exports = {
       "ts-node/register"
     ],
     format: [
-      "progress-bar",
+      "pretty",                                 // ← for rerun also enable logs
       "html:test-results/cucumber-report.html",
       "json:test-results/cucumber-report.json",
       "allure-cucumberjs/reporter",
