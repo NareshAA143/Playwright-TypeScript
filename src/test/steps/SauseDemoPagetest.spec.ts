@@ -13,3 +13,9 @@ Then('User fills password',async function (this: CustomWorld) {
 Then('User clicks login button',async function (this: CustomWorld) {
     await this.sausdemoPage.ClickLoginButton();
 });
+Then('User sees products',async function (this: CustomWorld) {
+    await this.sausdemoPage.GetProductNames();
+});
+Then('User clicks on AddToCart for specific products',async function (this: CustomWorld) {
+    await this.sausdemoPage.AddSpecificProductsToCart();
+});
