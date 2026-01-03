@@ -2,9 +2,9 @@ name: Playwright Cucumber CI with Auto Rerun
 
 on:
   push:
-    branches: [ main ]
+    branches: [ master ]
   pull_request:
-    branches: [ main ]
+    branches: [ master ]
 
 jobs:
   test:
@@ -37,7 +37,7 @@ jobs:
 
       # Step 5: Run Playwright + Cucumber Tests
       - name: Run Main Test Suite
-        run: npm run test:with-report1
+        run: npm run test:with-report
 
       # Step 6: Check for rerun file and re-run failed tests
       - name: Rerun Failed Tests (if any)
