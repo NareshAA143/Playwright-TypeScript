@@ -56,25 +56,25 @@ jobs:
         uses: actions/configure-pages@983d7736d9b0ae728b81ab479565c72886d7745b
 
       # 7️⃣ Publish Allure report to gh-pages (auto-create branch if missing)
-     - name: Publish Allure report
-  run: |
-    git config --global user.name "github-actions"
-    git config --global user.email "github-actions@github.com"
+      - name: Publish Allure report
+        run: |
+          git config --global user.name "github-actions"
+          git config --global user.email "github-actions@github.com"
 
-    # Check if gh-pages exists, clone if yes, else init
-    if git ls-remote --exit-code --heads origin gh-pages; then
-      git clone --branch gh-pages https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }} gh-pages
-    else
-      mkdir gh-pages
-      cd gh-pages
-      git init
-      git checkout -b gh-pages
-      cd ..
-    fi
+          # Check if gh-pages exists, clone if yes, else init
+          if git ls-remote --exit-code --heads origin gh-pages; then
+            git clone --branch gh-pages https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }} gh-pages
+          else
+            mkdir gh-pages
+            cd gh-pages
+            git init
+            git checkout -b gh-pages
+            cd ..
+          fi
 
-    # Copy Allure report
-    cp -r allure-report/* gh-pages/
-    cd gh-pages
-    git add .
-    git commit -m "Update Allure report from workflow run" || echo "No changes to commit"
-    git push origin gh-pages --force
+          # Copy Allure report
+          cp -r allure-report/* gh-pages/
+          cd gh-pages
+          git add .
+          git commit -m "Update Allure report from workflow run" || echo "No changes to commit"
+          git push origin gh-pages --force
