@@ -22,13 +22,13 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # 1️⃣ Checkout repo
+      # 1️⃣ Checkout repo (SHA pinned)
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@3df4ab11eba7bda6032a0b82a6bb43b11571feac
 
-      # 2️⃣ Setup Node
+      # 2️⃣ Setup Node.js (SHA pinned)
       - name: Setup Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@60edb5dd545a775178f52524783378180af0d1f8
         with:
           node-version: 18
           cache: npm
@@ -51,11 +51,11 @@ jobs:
           fi
         continue-on-error: true
 
-      # 6️⃣ Configure GitHub Pages
+      # 6️⃣ Configure GitHub Pages (SHA pinned)
       - name: Setup Pages
-        uses: actions/configure-pages@v5.1.1
+        uses: actions/configure-pages@983d7736d9b0ae728b81ab479565c72886d7745b
 
-      # 7️⃣ Push Allure report to gh-pages branch
+      # 7️⃣ Push Allure report to gh-pages branch manually
       - name: Publish Allure report
         run: |
           git config --global user.name "github-actions"
