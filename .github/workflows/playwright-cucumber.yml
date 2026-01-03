@@ -12,8 +12,8 @@ permissions:
   id-token: write
 
 jobs:
-  test:
-    name: Run Playwright Cucumber Tests
+  test-and-publish:
+    name: Run Tests & Publish Allure Report
     runs-on: ubuntu-latest
 
     strategy:
@@ -49,30 +49,12 @@ jobs:
         run: |
           npx allure generate allure-results --clean -o allure-report || echo "No Allure results"
 
-      - name: Upload Allure Report
+      - name: Upload Allure Report to GitHub Pages
         if: always()
-        uses: actions/upload-artifact@a8a3f3ad1e3f9c8e9b62e2d5f98f63cdebc4c3c1
-        with:
-          name: allure-report
-          path: allure-report
-
-  publish-report:
-    name: Publish Allure Report to GitHub Pages
-    needs: test
-    runs-on: ubuntu-latest
-    if: always()
-
-    steps:
-      - name: Download Allure Report
-        uses: actions/download-artifact@a8a3f3ad1e3f9c8e9b62e2d5f98f63cdebc4c3c1
-        with:
-          name: allure-report
-          path: ./site
-
-      - name: Upload Pages Artifact
         uses: actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b71927
         with:
-          path: ./site
+          path: allure-report
 
       - name: Deploy to GitHub Pages
+        if: always()
         uses: actions/deploy-pages@f1c2fbd6f9c79db1a4c2b1b8f6e6cfae9a8fbc91
