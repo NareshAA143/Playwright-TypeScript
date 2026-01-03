@@ -6,7 +6,13 @@ export default class SausdemoPage{
     private password: Locator;
     private loginButton: Locator;
     private productNames: Locator;
+    private productPrices: Locator;
     private addToCartButton: Locator;
+    private filterDropdown: Locator;
+    private filterNameAtoZ: Locator;
+    private filterNameZtoA: Locator;
+    private filterPriceLowtoHigh: Locator;
+    private filterPriceHightoLow: Locator;
 
 
     constructor(page: Page){
@@ -16,6 +22,12 @@ export default class SausdemoPage{
         this.loginButton=this.page.locator('#login-button');
         this.productNames=this.page.locator('.inventory_item_name');
         this.addToCartButton=this.page.locator('#add-to-cart-sauce-labs-backpack');
+        this.filterDropdown=this.page.locator('.product_sort_container');
+        this.filterNameAtoZ=this.page.locator("option[value='az']");
+        this.filterNameZtoA=this.page.locator("option[value='za']");
+        this.filterPriceLowtoHigh=this.page.locator("option[value='lohi']");
+        this.filterPriceHightoLow=this.page.locator("option[value='hilo']");
+        this.productPrices=this.page.locator('.inventory_item_price');
     }
     public async NavigateToSausdemoPage(){
         await this.page.goto('https://www.saucedemo.com/');
@@ -61,5 +73,26 @@ export default class SausdemoPage{
         }
     }
 }
-
+public async filterByNameAtoZ(){
+    await this.filterDropdown.click();
+    await this.filterDropdown.selectOption({index:0});
+}
+public async filterByNameZtoA(){
+    await this.filterDropdown.click();
+    await this.filterDropdown.selectOption({index:1});  
+}
+public async filterByPriceLowtoHigh(){
+    await this.filterDropdown.selectOption({index:2});
+}
+public async filterByPriceHightoLow(){
+    await this.filterDropdown.click();
+    await this.filterDropdown.selectOption({index:3});
+}
+public async getProductNames(){
+    return await this.productNames.allTextContents();
+}
+public async getProductPrices(){
+const prices = await this.productPrices.allTextContents();
+return prices.map(price => parseFloat(price.replace('$', '')));
+}
 }

@@ -1,10 +1,16 @@
-name: Playwright Cucumber CI with Auto Rerun
+name: Playwright Cucumber Tests
 
 on:
   push:
     branches: [ master ]
   pull_request:
     branches: [ master ]
+  workflow_dispatch:
+    inputs:
+      tags:
+        description: 'Cucumber tags (example: @Login)'
+        required: false
+        default: ''
 
 permissions:
   contents: read
@@ -13,21 +19,16 @@ permissions:
 
 jobs:
   test:
-    name: Run Playwright Cucumber Tests
     runs-on: ubuntu-latest
-
-    strategy:
-      matrix:
-        node-version: [18.x]
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11
+        uses: actions/checkout@3df4ab11eba7bda6032a0b82a6bb43b11571feac
 
       - name: Setup Node.js
-        uses: actions/setup-node@1a4442cacd436585916779262731d5b162bc6ec7
+        uses: actions/setup-node@60edb5dd545a775178f52524783378180af0d1f8
         with:
-          node-version: ${{ matrix.node-version }}
+          node-version: 18
           cache: npm
 
       - name: Install dependencies
@@ -36,43 +37,40 @@ jobs:
       - name: Install Playwright Browsers
         run: npx playwright install --with-deps
 
-      - name: Run Main Test Suite
-        run: npm run test:with-report
-
-      - name: Rerun Failed Tests
-        if: always() && hashFiles('rerun.txt') != ''
-        continue-on-error: true
-        run: npm run test:failed
-
-      - name: Generate Allure Report
-        if: always()
+      - name: Run Cucumber Tests
         run: |
-          npx allure generate allure-results --clean -o allure-report || echo "No Allure results"
+          if [ -z "${{ github.event.inputs.tags }}" ]; then
+            npm run test:with-report1
+          else
+            npm run test:with-report1 -- --tags=${{ github.event.inputs.tags }}
+          fi
+        continue-on-error: true
 
-      - name: Upload Allure Report
-        if: always()
-        uses: actions/upload-artifact@a8a3f3ad1e3f9c8e9b62e2d5f98f63cdebc4c3c1
+      - name: Upload Allure Report Artifact
+        uses: actions/upload-artifact@694cdabd43ef5f6cb8f7e2d44c8a3f5d79c4f6c6
         with:
           name: allure-report
           path: allure-report
 
-  publish-report:
-    name: Publish Allure Report to GitHub Pages
+  deploy:
     needs: test
-    runs-on: ubuntu-latest
     if: always()
+    runs-on: ubuntu-latest
 
     steps:
-      - name: Download Allure Report
-        uses: actions/download-artifact@a8a3f3ad1e3f9c8e9b62e2d5f98f63cdebc4c3c1
+      - name: Download Allure Report Artifact
+        uses: actions/download-artifact@9bc31d5ccc31df68ecc42ccf4149144866c47c4f
         with:
           name: allure-report
-          path: ./site
+          path: allure-report
+
+      - name: Configure GitHub Pages
+        uses: actions/configure-pages@983d7736d9b0ae728b81ab479565c72886d7745b
 
       - name: Upload Pages Artifact
-        uses: actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b71927
+        uses: actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b7197a
         with:
-          path: ./site
+          path: allure-report
 
       - name: Deploy to GitHub Pages
-        uses: actions/deploy-pages@f1c2fbd6f9c79db1a4c2b1b8f6e6cfae9a8fbc91
+        uses: actions/deploy-pages@d8e9c3c847b7b6b264d49b8fdc61b1a8d1a0a51b
