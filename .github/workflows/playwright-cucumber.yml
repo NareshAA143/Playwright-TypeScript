@@ -54,5 +54,23 @@ jobs:
         with:
           path: allure-report
 
+  publish-report:
+    name: Publish Allure Report to GitHub Pages
+    needs: test
+    runs-on: ubuntu-latest
+    if: always()
+
+    steps:
+      - name: Download Allure Report
+        uses: actions/download-artifact@a8a3f3ad1e3f9c8e9b62e2d5f98f63cdebc4c3c1
+        with:
+          name: allure-report
+          path: ./site
+
+      - name: Upload Pages Artifact
+        uses: actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b71927
+        with:
+          path: ./site
+
       - name: Deploy to GitHub Pages
         uses: actions/deploy-pages@d8e9c3c847b7b6b264d49b8fdc61b1a8d1a0a51b
