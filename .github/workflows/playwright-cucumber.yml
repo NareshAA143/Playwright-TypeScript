@@ -18,7 +18,7 @@ permissions:
   id-token: write
 
 jobs:
-  test:
+  test-and-deploy:
     runs-on: ubuntu-latest
 
     steps:
@@ -46,28 +46,10 @@ jobs:
           fi
         continue-on-error: true
 
-      - name: Upload Allure Report Artifact
-        uses: actions/upload-artifact@694cdabd43ef5f6cb8f7e2d44c8a3f5d79c4f6c6
-        with:
-          name: allure-report
-          path: allure-report
-
-  deploy:
-    needs: test
-    if: always()
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Download Allure Report Artifact
-        uses: actions/download-artifact@9bc31d5ccc31df68ecc42ccf4149144866c47c4f
-        with:
-          name: allure-report
-          path: allure-report
-
-      - name: Configure GitHub Pages
+      - name: Setup Pages
         uses: actions/configure-pages@983d7736d9b0ae728b81ab479565c72886d7745b
 
-      - name: Upload Pages Artifact
+      - name: Upload Allure Report to Pages
         uses: actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b7197a
         with:
           path: allure-report
