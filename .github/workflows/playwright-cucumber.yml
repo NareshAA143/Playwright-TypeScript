@@ -47,12 +47,12 @@ jobs:
         continue-on-error: true
 
       - name: Setup Pages
-        uses: actions/configure-pages@983d7736d9b0ae728b81ab479565c72886d7745b
+        uses: actions/configure-pages@v5.1.1
 
       - name: Upload Allure Report to Pages
-        uses: actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b7197a
+        uses: actions/upload-pages-artifact@v3.3.3
         with:
           path: allure-report
 
       - name: Deploy to GitHub Pages
-        uses: actions/deploy-pages@d8e9c3c847b7b6b264d49b8fdc61b1a8d1a0a51b
+        uses: actions/deploy-pages@v4.4.0
