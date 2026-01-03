@@ -55,15 +55,24 @@ jobs:
       - name: Setup Pages
         uses: actions/configure-pages@983d7736d9b0ae728b81ab479565c72886d7745b
 
-      # 7️⃣ Push Allure report to gh-pages branch manually
+      # 7️⃣ Publish Allure report to gh-pages (auto-create branch if missing)
       - name: Publish Allure report
         run: |
           git config --global user.name "github-actions"
           git config --global user.email "github-actions@github.com"
-          git clone --branch gh-pages https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }} gh-pages
-          rm -rf gh-pages/*
+
+          # Try to clone gh-pages, create if it doesn't exist
+          git clone --branch gh-pages https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }} gh-pages || (
+            mkdir gh-pages
+            cd gh-pages
+            git init
+            git checkout -b gh-pages
+            cd ..
+          )
+
+          # Copy Allure report
           cp -r allure-report/* gh-pages/
           cd gh-pages
           git add .
-          git commit -m "Update Allure report from workflow run"
-          git push origin gh-pages
+          git commit -m "Update Allure report from workflow run" || echo "No changes to commit"
+          git push origin gh-pages --force
