@@ -22,21 +22,26 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      # 1️⃣ Checkout repo
       - name: Checkout repository
-        uses: actions/checkout@3df4ab11eba7bda6032a0b82a6bb43b11571feac
+        uses: actions/checkout@v3
 
+      # 2️⃣ Setup Node
       - name: Setup Node.js
-        uses: actions/setup-node@60edb5dd545a775178f52524783378180af0d1f8
+        uses: actions/setup-node@v4
         with:
           node-version: 18
           cache: npm
 
+      # 3️⃣ Install dependencies
       - name: Install dependencies
         run: npm ci
 
+      # 4️⃣ Install Playwright browsers
       - name: Install Playwright Browsers
         run: npx playwright install --with-deps
 
+      # 5️⃣ Run tests (with optional tags)
       - name: Run Cucumber Tests
         run: |
           if [ -z "${{ github.event.inputs.tags }}" ]; then
@@ -46,13 +51,19 @@ jobs:
           fi
         continue-on-error: true
 
+      # 6️⃣ Configure GitHub Pages
       - name: Setup Pages
         uses: actions/configure-pages@v5.1.1
 
-      - name: Upload Allure Report to Pages
-        uses: actions/upload-pages-artifact@v3.3.3
-        with:
-          path: allure-report
-
-      - name: Deploy to GitHub Pages
-        uses: actions/deploy-pages@v4.4.0
+      # 7️⃣ Push Allure report to gh-pages branch
+      - name: Publish Allure report
+        run: |
+          git config --global user.name "github-actions"
+          git config --global user.email "github-actions@github.com"
+          git clone --branch gh-pages https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }} gh-pages
+          rm -rf gh-pages/*
+          cp -r allure-report/* gh-pages/
+          cd gh-pages
+          git add .
+          git commit -m "Update Allure report from workflow run"
+          git push origin gh-pages
