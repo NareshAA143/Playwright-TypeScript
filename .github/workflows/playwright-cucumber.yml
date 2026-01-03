@@ -19,15 +19,14 @@ permissions:
 
 jobs:
   test:
-    name: Run Playwright Cucumber Tests
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@3df4ab11eba7bda6032a0b82a6bb43b11571feac
 
       - name: Setup Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@60edb5dd545a775178f52524783378180af0d1f8
         with:
           node-version: 18
           cache: npm
@@ -38,44 +37,40 @@ jobs:
       - name: Install Playwright Browsers
         run: npx playwright install --with-deps
 
-      - name: Run Cucumber Tests (with optional tags)
+      - name: Run Cucumber Tests
         run: |
           if [ -z "${{ github.event.inputs.tags }}" ]; then
-            echo "Running ALL tests"
             npm run test:with-report1
           else
-            echo "Running tagged tests: ${{ github.event.inputs.tags }}"
             npm run test:with-report1 -- --tags=${{ github.event.inputs.tags }}
           fi
         continue-on-error: true
 
       - name: Upload Allure Report Artifact
-        if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@694cdabd43ef5f6cb8f7e2d44c8a3f5d79c4f6c6
         with:
           name: allure-report
           path: allure-report
 
   deploy:
-    name: Publish Allure Report to GitHub Pages
     needs: test
     if: always()
     runs-on: ubuntu-latest
 
     steps:
       - name: Download Allure Report Artifact
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@9bc31d5ccc31df68ecc42ccf4149144866c47c4f
         with:
           name: allure-report
           path: allure-report
 
-      - name: Setup Pages
-        uses: actions/configure-pages@v5
+      - name: Configure GitHub Pages
+        uses: actions/configure-pages@983d7736d9b0ae728b81ab479565c72886d7745b
 
       - name: Upload Pages Artifact
-        uses: actions/upload-pages-artifact@v3
+        uses: actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b7197a
         with:
           path: allure-report
 
       - name: Deploy to GitHub Pages
-        uses: actions/deploy-pages@v4
+        uses: actions/deploy-pages@d8e9c3c847b7b6b264d49b8fdc61b1a8d1a0a51b
