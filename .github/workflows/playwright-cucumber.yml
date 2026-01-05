@@ -43,6 +43,14 @@ jobs:
           fi
         continue-on-error: true
 
+      # ✅ NEW: Upload Allure report as GitHub Actions artifact
+      - name: Upload Allure Report Artifact
+        if: always()
+        uses: actions/upload-artifact@694cdabd8d1b0f1b7f2a4e9b1e0f4a2a8c1c9b1c
+        with:
+          name: allure-report
+          path: allure-report
+
       - name: Deploy Allure Report to gh-pages
         run: |
           git config user.name "github-actions"
