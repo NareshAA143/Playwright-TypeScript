@@ -23,10 +23,10 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11
 
       - name: Setup Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@60edb5dd545a775178f52524783378180af0d1f8
         with:
           node-version: 18
 
@@ -46,7 +46,7 @@ jobs:
         continue-on-error: true
 
       - name: Deploy Allure Report to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v4
+        uses: peaceiris/actions-gh-pages@f6c1e1f7f8c4d0c8c9bb2c7b7d7b9a51b07c6d59
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: allure-report
