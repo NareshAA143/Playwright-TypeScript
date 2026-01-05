@@ -14,8 +14,6 @@ on:
 
 permissions:
   contents: write
-  pages: write
-  id-token: write
 
 jobs:
   test-and-deploy:
@@ -45,9 +43,23 @@ jobs:
           fi
         continue-on-error: true
 
-      - name: Deploy Allure Report to GitHub Pages
-        uses: peaceiris/actions-gh-pages@f6c1e1f7f8c4d0c8c9bb2c7b7d7b9a51b07c6d59
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: allure-report
-          publish_branch: gh-pages
+      - name: Deploy Allure Report to gh-pages
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+
+          git fetch origin
+
+          if git show-ref --quiet refs/remotes/origin/gh-pages; then
+            git checkout gh-pages
+          else
+            git checkout --orphan gh-pages
+          fi
+
+          git rm -rf .
+          cp -r allure-report/* .
+          touch .nojekyll
+
+          git add .
+          git commit -m "Update Allure report" || echo "No changes"
+          git push origin gh-pages --force
