@@ -61,7 +61,7 @@ jobs:
           git config --global user.name "github-actions"
           git config --global user.email "github-actions@github.com"
 
-          # Check if gh-pages exists, clone if yes, else init
+          
           if git ls-remote --exit-code --heads origin gh-pages; then
             git clone --branch gh-pages https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }} gh-pages
           else
@@ -72,7 +72,7 @@ jobs:
             cd ..
           fi
 
-          # Copy Allure report
+        
           cp -r allure-report/* gh-pages/
           cd gh-pages
           git add .
