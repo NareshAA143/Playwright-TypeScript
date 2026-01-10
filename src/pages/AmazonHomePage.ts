@@ -25,7 +25,7 @@ export default class AmazonHomePage {
         const countOfOptions=await this.suggestedProducts.count();//count number of options suggested
         console.log(countOfOptions);
         await expect(this.suggestedProducts).toHaveCount(countOfOptions);
-        const optionsText=await this.suggestedProducts.allTextContents();//get all product names
+        const optionsText=await this.suggestedProducts.allTextContents();//returns all product names in string array
         console.log(optionsText);//print all product names
         await expect(this.page.locator("[id*='sac-suggestion-row']",{hasText:'iphone 17 pro'}).first()).toBeVisible();//check particular product visible
         //await this.page.locator("[id*='sac-suggestion-row']",{hasText:'iphone 17 pro'}).first().click();//click particular product from suggested list

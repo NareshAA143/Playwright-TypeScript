@@ -38,6 +38,15 @@ export default class SausdemoPage{
     public async FillPassword(password: string){
         await this.password.fill(password);
     }
+    //
+     public async enterUsername(username: string) {
+    await this.username.fill(username);
+  }
+
+  public async enterPassword(password: string) {
+    await this.password.fill(password);
+  }
+    //
     public async ClickLoginButton(){
         await this.loginButton.click();
     }
