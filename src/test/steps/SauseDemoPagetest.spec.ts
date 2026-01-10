@@ -12,6 +12,15 @@ When('User fills username',async function (this: CustomWorld) {
 Then('User fills password',async function (this: CustomWorld) {
     await this.sausdemoPage.FillPassword("secret_sauce");
 });
+//
+When('User fills username {string}', async function (username: string) {
+  await this.sausdemoPage.enterUsername(username);
+});
+
+When('User fills password {string}', async function (password: string) {
+      await this.sausdemoPage.enterPassword(password);
+});
+//
 Then('User clicks login button',async function (this: CustomWorld) {
     await this.sausdemoPage.ClickLoginButton();
 });
