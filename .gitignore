@@ -7,6 +7,6 @@ node_modules/
 /playwright/.cache/
 cucucmber-report.html
 assets
-features
+# features
 @rerun.txt
 index.html
