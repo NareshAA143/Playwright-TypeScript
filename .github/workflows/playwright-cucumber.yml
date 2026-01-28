@@ -7,8 +7,17 @@ on:
     branches: [ master ]
   workflow_dispatch:
     inputs:
+      test_scope:
+        description: 'Test scope to run'
+        required: true
+        default: 'all'
+        type: choice
+        options:
+          - all
+          - tagged
+          - both
       tags:
-        description: 'Cucumber tags (example: @Login)'
+        description: 'Cucumber tags (example: @DataGrid @Login)'
         required: false
         default: ''
 
@@ -41,10 +50,24 @@ jobs:
 
       - name: Run Cucumber Tests
         run: |
-          if [ -z "${{ github.event.inputs.tags }}" ]; then
+          TEST_SCOPE="${{ github.event.inputs.test_scope }}"
+          TAGS="${{ github.event.inputs.tags }}"
+          
+          # Default to 'all' for push and pull_request events
+          if [ -z "$TEST_SCOPE" ]; then
+            TEST_SCOPE="all"
+          fi
+          
+          # Run all tests
+          if [ "$TEST_SCOPE" = "all" ] || [ "$TEST_SCOPE" = "both" ]; then
+            echo "Running all tests..."
             npm run test:with-report1
-          else
-            npm run test:with-report1 -- --tags="${{ github.event.inputs.tags }}"
+          fi
+          
+          # Run tagged tests
+          if [ ! -z "$TAGS" ] && ([ "$TEST_SCOPE" = "tagged" ] || [ "$TEST_SCOPE" = "both" ]); then
+            echo "Running tagged tests: $TAGS"
+            npm run test:with-report1 -- --tags="$TAGS"
           fi
         continue-on-error: true
 
