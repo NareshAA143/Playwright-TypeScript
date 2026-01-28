@@ -14,6 +14,8 @@ on:
 
 permissions:
   contents: write
+  pages: write
+  id-token: write
 
 jobs:
   test-and-deploy:
@@ -21,12 +23,15 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Setup Node.js
-        uses: actions/setup-node@60edb5dd545a775178f52524783378180af0d1f8
+        uses: actions/setup-node@v4
         with:
           node-version: 18
+          cache: 'npm'
 
       - name: Install dependencies
         run: npm ci
@@ -43,7 +48,15 @@ jobs:
           fi
         continue-on-error: true
 
+      - name: Verify Allure Report Generated
+        run: |
+          if [ ! -d "allure-report" ]; then
+            echo "Error: Allure report directory not found"
+            exit 1
+          fi
+
       - name: Deploy Allure Report to gh-pages
+        if: success() || failure()
         run: |
           git config user.name "github-actions"
           git config user.email "github-actions@github.com"
@@ -61,5 +74,5 @@ jobs:
           touch .nojekyll
 
           git add .
-          git commit -m "Update Allure report" || echo "No changes"
+          git commit -m "Update Allure report" || echo "No changes to commit"
           git push origin gh-pages --force
