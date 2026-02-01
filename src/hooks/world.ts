@@ -56,7 +56,7 @@ export class CustomWorld extends World {
     this.leavePage=new OrangeHRMLeavePage(this.page);
     this.adminPage=new OrangeHRMAdminPage(this.page);
     this.amazonHomePage=new AmazonHomePage(this.page);
-    this.letcodePage=new LetcodePage(this.page);
+    this.letcodePage=new LetcodePage(this.page, this.logger);
     this.globalSQPage=new GlobalSQPage(this.page);
     this.play1Page=new Play1Page(this.page);
     this.flipkartPage=new FlipkartPage(this.page);
