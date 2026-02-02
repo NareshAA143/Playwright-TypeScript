@@ -34,7 +34,6 @@ export default class LetcodePage {
         this.LetsHandleTablerows = this.page.locator('#simpletable tbody tr');
         this.sortTable = this.page.locator('.mat-sort');
         this.calories = this.page.locator('.mat-sort tbody tr td:nth-of-type(2)');
-        //this.shoppingListItems=this.page.locator('#shopping tbody tr:nth-child(i) td:nth-child(i)');
     }
 
     //Actions
@@ -136,12 +135,7 @@ public async PrintShoppingListPrices(){
         for (const name of names) {
             const rowText = await this.LetsHandleTablerows.filter({ hasText: name });
             await rowText.locator("//input[@type='checkbox']").check();
-            //await expect(rowText.locator("//input[@type='checkbox']")).toBeChecked();
-        }
-
-        for (const name of names) {
-            const rowText = await this.LetsHandleTablerows.filter({ hasText: name });
-            await expect(rowText.locator("//input[@type='checkbox']")).toBeChecked();
+            expect(rowText.locator("//input[@type='checkbox']").isChecked()).toBeTruthy();
         }
 
     }
@@ -155,9 +149,9 @@ public async PrintShoppingListPrices(){
         const caloriesText = await this.calories.allTextContents();
         console.log("The calories are:", caloriesText);
         // Convert string[] → number[]
-        const calories = caloriesText.map(c => Number(c.trim()));
+        const calories:number[] = caloriesText.map(c => Number(c.trim()));
         // Use slice() to create a copy before sorting
-        const sortedCalories = calories.slice().sort((a, b) => a - b);
+        const sortedCalories:number[] = calories.slice().sort((a, b) => a - b);
         console.log("Sorted calories:", sortedCalories);
         expect(calories).toEqual(sortedCalories);
     }
