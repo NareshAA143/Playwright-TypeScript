@@ -7,6 +7,10 @@ node_modules/
 /blob-report/
 /playwright/.cache/
 
+# Allure reports (generated at runtime)
+/allure-report/
+/allure-results/
+
 # Cucumber HTML report (generated at root)
 /features/
 /features/assets/

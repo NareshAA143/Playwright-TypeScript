@@ -7,13 +7,24 @@ on:
     branches: [ master ]
   workflow_dispatch:
     inputs:
+      test_scope:
+        description: 'Test scope to run'
+        required: true
+        default: 'all'
+        type: choice
+        options:
+          - all
+          - tagged
+          - both
       tags:
-        description: 'Cucumber tags (example: @Login)'
+        description: 'Cucumber tags (example: @DataGrid @Login)'
         required: false
         default: ''
 
 permissions:
   contents: write
+  pages: write
+  id-token: write
 
 jobs:
   test-and-deploy:
@@ -22,11 +33,14 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11
+        with:
+          fetch-depth: 0
 
       - name: Setup Node.js
         uses: actions/setup-node@60edb5dd545a775178f52524783378180af0d1f8
         with:
           node-version: 18
+          cache: 'npm'
 
       - name: Install dependencies
         run: npm ci
@@ -36,14 +50,36 @@ jobs:
 
       - name: Run Cucumber Tests
         run: |
-          if [ -z "${{ github.event.inputs.tags }}" ]; then
+          TEST_SCOPE="${{ github.event.inputs.test_scope }}"
+          TAGS="${{ github.event.inputs.tags }}"
+          
+          # Default to 'all' for push and pull_request events
+          if [ -z "$TEST_SCOPE" ]; then
+            TEST_SCOPE="all"
+          fi
+          
+          # Run all tests
+          if [ "$TEST_SCOPE" = "all" ] || [ "$TEST_SCOPE" = "both" ]; then
+            echo "Running all tests..."
             npm run test:with-report1
-          else
-            npm run test:with-report1 -- --tags="${{ github.event.inputs.tags }}"
+          fi
+          
+          # Run tagged tests
+          if [ ! -z "$TAGS" ] && ([ "$TEST_SCOPE" = "tagged" ] || [ "$TEST_SCOPE" = "both" ]); then
+            echo "Running tagged tests: $TAGS"
+            npm run test:with-report1 -- --tags="$TAGS"
           fi
         continue-on-error: true
 
+      - name: Verify Allure Report Generated
+        run: |
+          if [ ! -d "allure-report" ]; then
+            echo "Error: Allure report directory not found"
+            exit 1
+          fi
+
       - name: Deploy Allure Report to gh-pages
+        if: success() || failure()
         run: |
           git config user.name "github-actions"
           git config user.email "github-actions@github.com"
@@ -61,5 +97,5 @@ jobs:
           touch .nojekyll
 
           git add .
-          git commit -m "Update Allure report" || echo "No changes"
+          git commit -m "Update Allure report" || echo "No changes to commit"
           git push origin gh-pages --force

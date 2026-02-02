@@ -15,6 +15,8 @@ import  TestPages  from "../pages/TestPages";
 import UITapPage from "../pages/UITapPage";
 import ToolsQAPage from "../pages/ToolsQAPage";
 import sausdemoPage from "../pages/SausdemoPage";
+import DataGridPage from "../pages/DataGridPage";
+import BooksToScrapePage from "../pages/BooksToScrapePage";
 export class CustomWorld extends World {
   // Playwright objects
   browser!: Browser;
@@ -37,6 +39,8 @@ export class CustomWorld extends World {
   uiTapPage!: UITapPage;
   toolsQAPage!: ToolsQAPage;
   sausdemoPage!: sausdemoPage;
+  dataGridPage!: DataGridPage;
+  booksToScrapePage!: BooksToScrapePage;
 
   constructor(options: IWorldOptions) {
     super(options);
@@ -52,7 +56,7 @@ export class CustomWorld extends World {
     this.leavePage=new OrangeHRMLeavePage(this.page);
     this.adminPage=new OrangeHRMAdminPage(this.page);
     this.amazonHomePage=new AmazonHomePage(this.page);
-    this.letcodePage=new LetcodePage(this.page);
+    this.letcodePage=new LetcodePage(this.page, this.logger);
     this.globalSQPage=new GlobalSQPage(this.page);
     this.play1Page=new Play1Page(this.page);
     this.flipkartPage=new FlipkartPage(this.page);
@@ -61,6 +65,8 @@ export class CustomWorld extends World {
     this.uiTapPage=new UITapPage(this.page);
     this.toolsQAPage=new ToolsQAPage(this.page);
     this.sausdemoPage=new sausdemoPage(this.page);
+    this.dataGridPage=new DataGridPage(this.page);
+    this.booksToScrapePage=new BooksToScrapePage(this.page);
   }
 }
 
