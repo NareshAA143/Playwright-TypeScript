@@ -25,4 +25,5 @@ Then User checks checkbox by name
 @SortableTable
 Scenario:Sort verify
 When User sees sort Table
+Then User sees sort table headers
 Then User sees sorted calories

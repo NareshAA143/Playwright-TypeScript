@@ -17,6 +17,7 @@ export default class LetcodePage {
     private HandleTable: Locator
 
     private sortTable: Locator
+    private sortTableHeaderCells: Locator
     private calories: Locator
 
     //locators declaration
@@ -33,6 +34,7 @@ export default class LetcodePage {
         this.HandleTable = this.page.locator('#simpletable');
         this.LetsHandleTablerows = this.page.locator('#simpletable tbody tr');
         this.sortTable = this.page.locator('.mat-sort');
+        this.sortTableHeaderCells = this.page.locator('.mat-sort thead th');
         this.calories = this.page.locator('.mat-sort tbody tr td:nth-of-type(2)');
     }
 
@@ -142,6 +144,12 @@ public async PrintShoppingListPrices(){
 
     public async CheckSortTable() {
         await expect(this.sortTable).toBeVisible();
+    }
+    public async ListSortTableHeaders() {
+        const headers = ['Dessert (100g)','Calories','Fat (g)','Carbs (g)','Protein (g)','Cholesterol(mg)'];
+        const sortHeaders= await this.sortTableHeaderCells.allTextContents();
+        console.log("The sort headers are:", sortHeaders);
+        expect(sortHeaders).toEqual(headers);
     }
 
     public async sortByCalories() {
