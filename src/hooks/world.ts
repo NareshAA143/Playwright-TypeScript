@@ -18,6 +18,7 @@ import sausdemoPage from "../pages/SausdemoPage";
 import DataGridPage from "../pages/DataGridPage";
 import BooksToScrapePage from "../pages/BooksToScrapePage";
 import HYRTutorialsPage from "../pages/HYRTutorialsPage";
+import MyntraPage from "../pages/MyntraPage";
 export class CustomWorld extends World {
   // Playwright objects
   browser!: Browser;
@@ -43,6 +44,7 @@ export class CustomWorld extends World {
   dataGridPage!: DataGridPage;
   booksToScrapePage!: BooksToScrapePage;
   hyrPage!: HYRTutorialsPage;
+  myntraPage!: MyntraPage;
 
   constructor(options: IWorldOptions) {
     super(options);
@@ -70,6 +72,7 @@ export class CustomWorld extends World {
     this.dataGridPage=new DataGridPage(this.page);
     this.booksToScrapePage=new BooksToScrapePage(this.page);
     this.hyrPage=new HYRTutorialsPage(this.page);
+    this.myntraPage=new MyntraPage(this.page);
   }
 }
 

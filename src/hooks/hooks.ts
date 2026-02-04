@@ -101,6 +101,14 @@ After(async function (this: CustomWorld, { pickle, result }) {
   // Attach trace link
   const traceFileLink = `<a href="https://trace.playwright.dev/">Open ${tracePath}</a>`;
   await this.attach(`Trace file: ${traceFileLink}`, "text/html");
+
+  // Log scenario result to console (explicit pass/fail status)
+  let statusText = "UNKNOWN";
+  if (result?.status === Status.PASSED) statusText = "PASSED";
+  else if (result?.status === Status.FAILED) statusText = "FAILED";
+  else if (result?.status) statusText = String(result.status);
+
+  console.log(`Scenario "${pickle.name}" => ${statusText}`);
 });
 
 // After all scenarios
