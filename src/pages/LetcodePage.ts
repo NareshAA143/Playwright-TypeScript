@@ -4,7 +4,7 @@ import { AllureLogger } from "../helper/util/allureLogger";
 
 export default class LetcodePage {
 
-    private page: Page;
+    private page: Page
     private shoppingtable: Locator
     private shoppingTableHeaders:Locator
     private headers:Locator
@@ -13,9 +13,7 @@ export default class LetcodePage {
     private LetsHandleTablerows: Locator
     private apple: Locator
     private applePrice: Locator
-
     private HandleTable: Locator
-
     private sortTable: Locator
     private sortTableHeaderCells: Locator
     private calories: Locator
