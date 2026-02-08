@@ -15,6 +15,9 @@ export default class OrangeHRMAdminPage {
   private statusDropdown: Locator;
   private status: Locator;
   private searchButton: Locator;
+  private tableRows: Locator;
+  private checkboxesInTable: Locator;
+  private userNamesInTable: Locator;
 
   constructor(page: Page) {
     this.page = page;
@@ -30,6 +33,9 @@ export default class OrangeHRMAdminPage {
     this.statusDropdown=this.page.locator(".oxd-select-text.oxd-select-text--active").nth(1);
     this.status=this.page.locator('.oxd-select-option', {hasText:'Enabled'});
     this.searchButton = this.page.locator("button[type='submit']");
+    this.tableRows = this.page.locator('//div[@class="oxd-table-body"]/child::div[@class="oxd-table-card"]');
+    this.userNamesInTable = this.page.locator('//div[@class="oxd-table-card"]/descendant::div[text()="Evie14"]');
+    this.checkboxesInTable = this.page.locator('//div[@class="oxd-table-card"]/descendant::input');
   }
 
   //Action methods
@@ -75,4 +81,27 @@ public async ClickonStatusDropdown() {
   public async clickOnSearch() {
     await this.searchButton.click();
   }
+  public async verifyTableRows() {
+    const rowCount = await this.tableRows.count();
+    console.log(`Number of rows in the table: ${rowCount}`);
+    
+}
+public async VerifyEachRowContent() {
+    const rows = await this.page.locator('//div[@class="oxd-table-body"]/child::div[@class="oxd-table-card"]').all();
+    for(let row of rows) {
+        console.log(row.allTextContents());
+  }
+}
+public async VerifyNumberOfCheckboxes() {
+  const checkboxesCount = await this.checkboxesInTable.count();
+  console.log(`Number of checkboxes in the table: ${checkboxesCount}`);
+}
+public async CheckAllCheckboxes() {
+  for(let check of await this.checkboxesInTable.all())  
+    {
+        await check.check();
+        await this.page.waitForTimeout(3000);
+    } 
+}
+
 }

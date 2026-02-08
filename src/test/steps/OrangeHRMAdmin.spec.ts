@@ -49,3 +49,15 @@ Then('user selects status',async function (this: CustomWorld) {
 Then('user clicks on search',async function(this: CustomWorld){
     await this.adminPage.clickOnSearch();
 });
+Then('sees number of rows in the table',async function(this: CustomWorld){
+    await this.adminPage.verifyTableRows();
+});
+Then('user sees the content of each row in the table',async function(this: CustomWorld){
+    await this.adminPage.VerifyEachRowContent();
+});
+Then('user sees the number of checkboxes in the table',async function(this: CustomWorld){
+    await this.adminPage.VerifyNumberOfCheckboxes();
+});
+Then('user checks all the checkboxes in the table',async function(this: CustomWorld){
+    await this.adminPage.CheckAllCheckboxes();
+});
