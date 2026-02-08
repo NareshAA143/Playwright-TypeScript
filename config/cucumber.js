@@ -14,6 +14,7 @@ module.exports = {
     ],
     format: [
       "pretty",                                 // ← console.log now works
+      "summary",
       "html:test-results/cucumber-report.html",
       "json:test-results/cucumber-report.json",
       "allure-cucumberjs/reporter",
@@ -38,6 +39,7 @@ module.exports = {
     ],
     format: [
       "pretty",                                 // ← for rerun also enable logs
+      "summary",
       "html:test-results/cucumber-report.html",
       "json:test-results/cucumber-report.json",
       "allure-cucumberjs/reporter",

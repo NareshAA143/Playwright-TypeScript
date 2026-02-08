@@ -32,7 +32,7 @@ export default class AmazonHomePage {
         await this.page.waitForTimeout(2000);
 
         //using for loop to click particular product
-        const options=await this.suggestedProducts.all();//get all options
+        const options=await this.suggestedProducts.all();//get all options locators in array
         for(const option of options)
         {
             if(await option.textContent()==='iphone 17pro max')

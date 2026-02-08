@@ -46,6 +46,9 @@ Then('User checks checkbox by name', async function (this: CustomWorld) {
 When('User sees sort Table', async function (this: CustomWorld) {
     await this.letcodePage.CheckSortTable();
 })
+Then('User sees sort table headers', async function (this: CustomWorld) {
+    await this.letcodePage.ListSortTableHeaders();
+})
 Then('User sees sorted calories', async function (this: CustomWorld) {
     await this.letcodePage.sortByCalories();
 })

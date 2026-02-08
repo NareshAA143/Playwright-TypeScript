@@ -30,3 +30,10 @@ Then user selects Sub unit
 Then user clicks on Include Past Employees
 
 
+@OrangeHRMAdminTable
+Scenario: Admin Table functionality
+And user clicks on Admin button
+And sees number of rows in the table
+Then user sees the content of each row in the table
+Then user sees the number of checkboxes in the table
+Then user checks all the checkboxes in the table
